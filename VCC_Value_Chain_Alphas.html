@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCC Value Chain & Alphas · Seeking Alpha Advisors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; box-sizing:border-box; margin:0; padding:0; }
+  :root{
+    --gold:#C4A25C; --gold-dim:rgba(196,162,92,0.2);
+    --void:#050608; --panel:#0A0C10; --border:rgba(255,255,255,0.1);
+    --text:#EAEAEA; --muted:#8B8D91; --red:#D24A4A; --green:#4AD295;
+    --head:"Calibri","Segoe UI",system-ui,sans-serif; --body:"Inter",sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  body{background:#000;font-family:var(--body);font-weight:300;color:var(--text);padding:30px 0;}
+  .sheet{width:816px;min-height:1056px;margin:0 auto 28px;background:var(--void);border:1px solid var(--border);position:relative;display:flex;flex-direction:column;
+    background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+  .masthead{background:#000;border-bottom:1px solid var(--gold-dim);padding:20px 54px;display:flex;justify-content:space-between;align-items:baseline;}
+  .masthead .firm{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
+  .masthead .tag{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .body{padding:38px 54px 24px;flex:1;}
+  .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+  h1{font-family:var(--head);font-weight:400;font-size:29px;line-height:1.1;margin-bottom:9px;letter-spacing:-0.01em;}
+  h1 em{font-style:italic;color:var(--gold);}
+  .sub{font-size:12px;color:var(--muted);margin-bottom:6px;max-width:660px;}
+  h2{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:20px 0 4px;}
+  h2 .n{color:var(--muted);margin-right:8px;}
+  h3{font-family:var(--head);font-size:15px;font-weight:500;margin:2px 0 7px;}
+  p{font-size:11.5px;line-height:1.62;margin-bottom:8px;color:var(--text);}
+  p b{font-weight:600;}
+  .ref{font-family:var(--mono);font-size:8px;vertical-align:super;color:var(--gold);text-decoration:none;}
+  .stats{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);margin:6px 0 12px;}
+  .stats .s{flex:1;background:#000;padding:11px 12px;text-align:center;}
+  .stats .s .v{font-family:var(--mono);font-size:18px;color:var(--gold);}
+  .stats .s .l{font-family:var(--mono);font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-top:3px;line-height:1.3;}
+  .node{border:1px solid var(--border);background:var(--panel);margin-bottom:7px;padding:9px 13px;display:flex;gap:13px;}
+  .node .tag{font-family:var(--mono);font-size:8.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);min-width:120px;padding-top:2px;}
+  .node .d{font-size:11px;line-height:1.5;flex:1;}
+  .node .d b{color:var(--text);}
+  .node .d .ls{display:block;color:var(--muted);font-size:10px;margin-top:3px;}
+  table{width:100%;border-collapse:collapse;font-size:10px;margin:4px 0 10px;}
+  th{background:#000;color:var(--gold);font-family:var(--mono);font-size:8px;letter-spacing:0.05em;text-transform:uppercase;text-align:left;padding:6px 7px;border:1px solid var(--border);font-weight:500;}
+  td{padding:6px 7px;border:1px solid var(--border);vertical-align:top;line-height:1.4;}
+  td b{color:var(--text);}
+  .alpha{border:1px solid var(--border);margin-bottom:8px;}
+  .alpha .ah{display:flex;justify-content:space-between;align-items:center;background:#000;border-bottom:1px solid var(--gold-dim);padding:8px 13px;}
+  .alpha .ah .nm{font-family:var(--head);font-size:14px;font-weight:600;}
+  .alpha .ah .nm span{font-family:var(--mono);font-size:8.5px;color:var(--gold);margin-right:8px;}
+  .alpha .ah .rt{font-family:var(--mono);font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--gold-dim);color:var(--gold);}
+  .alpha .ab{padding:9px 13px;font-size:11px;line-height:1.55;}
+  .tam{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);margin:6px 0 8px;}
+  .tam .t{flex:1;background:#000;padding:11px 13px;}
+  .tam .t .lab{font-family:var(--mono);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
+  .tam .t .v{font-family:var(--mono);font-size:15px;color:var(--text);margin:4px 0;}
+  .tam .t .d{font-size:10px;color:var(--muted);line-height:1.4;}
+  .caveat{border:1px solid var(--gold-dim);background:rgba(196,162,92,0.04);padding:11px 14px;margin:4px 0 12px;font-size:10.5px;color:var(--muted);line-height:1.5;}
+  .caveat b{color:var(--gold);font-family:var(--mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:4px;}
+  .scen{border:1px solid var(--border);margin:4px 0 10px;}
+  .scen .r{display:flex;border-bottom:1px solid var(--border);} .scen .r:last-child{border-bottom:none;}
+  .scen .lab{font-family:var(--mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;padding:9px 12px;min-width:78px;border-right:1px solid var(--border);display:flex;align-items:center;}
+  .scen .lab.bull{color:var(--green);} .scen .lab.base{color:var(--gold);} .scen .lab.bear{color:var(--red);}
+  .scen .txt{padding:9px 13px;font-size:10.5px;line-height:1.5;}
+  .rec{border:1px solid var(--gold-dim);background:rgba(196,162,92,0.05);padding:12px 15px;font-size:11px;line-height:1.55;}
+  ol.refs{font-family:var(--mono);font-size:8px;color:var(--muted);line-height:1.5;padding-left:18px;}
+  ol.refs li{margin-bottom:4px;word-break:break-word;} ol.refs li a{color:var(--gold);text-decoration:none;}
+  .foot{background:#000;border-top:1px solid var(--gold-dim);padding:10px 54px;display:flex;justify-content:space-between;align-items:center;}
+  .foot .f{font-family:var(--mono);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .foot .pg{font-family:var(--mono);font-size:8px;letter-spacing:0.1em;color:var(--gold);}
+  @media print{ body{background:#fff;padding:0;} .sheet{margin:0;border:none;page-break-after:always;} }
+</style>
+</head>
+<body>
+
+<!-- SHEET 1 : MARKET + ENTRY NODES -->
+<div class="sheet">
+  <div class="masthead"><span class="firm">Seeking Alpha Advisors</span><span class="tag">Research, Advisory &amp; Execution</span></div>
+  <div class="body">
+    <div class="eyebrow">Market Map · Singapore VCC Value Chain</div>
+    <h1>The VCC Value Chain:<br><em>entry nodes, expansion, the cottage industry</em>, and the Alphas</h1>
+    <div class="sub">Where managers enter the VCC, what legal work each transition triggers, who services it and at what price, and where the value actually sits.</div>
+
+    <div class="stats">
+      <div class="s"><div class="v">~1,400</div><div class="l">VCCs by Q1 2025</div></div>
+      <div class="s"><div class="v">~2,000</div><div class="l">sub-funds</div></div>
+      <div class="s"><div class="v">~600</div><div class="l">MAS fund managers</div></div>
+      <div class="s"><div class="v">250+</div><div class="l">service providers</div></div>
+      <div class="s"><div class="v">&gt;70%</div><div class="l">alt funds still offshore corporate</div></div>
+    </div>
+    <p><a class="ref" href="#r3">3</a><a class="ref" href="#r4">4</a> The framework went from an 18-manager pilot in 2020 to more than 1,400 VCCs and roughly 2,000 sub-funds by Q1 2025, managed by around 600 fund managers and serviced by a documented 250-plus providers. The deepest single fact for strategy: more than 70 percent of alternative funds sold in Singapore are still corporate-form funds domiciled offshore, which is the migration pool the onshore VCC is built to capture.</p>
+
+    <h2><span class="n">01</span>Entry nodes: how you become a VCC, and the legal work each triggers</h2>
+    <div class="node"><div class="tag">Node A · New launch</div><div class="d"><b>Emerging or established manager constitutes a fresh VCC.</b><span class="ls">Legal: vehicle selection, constitution, incorporation, CMS licensing or hosting agreement, offer documents, subscription docs, 13O/13U application, AML setup.</span></div></div>
+    <div class="node"><div class="tag">Node B · Re-domiciliation</div><div class="d"><b>Offshore corporate fund (Cayman SPC, BVI) transfers registration onshore.</b><span class="ls">Legal: transfer-of-registration pack (ACRA fee ~S$9,000), constitution replacing foreign articles, foreign de-registration, solvency and audit-exemption assessment. The largest pool by far.</span></div></div>
+    <div class="node"><div class="tag">Node C · SG restructuring</div><div class="d"><b>Existing SG limited partnership, unit trust or company moves to a VCC.</b><span class="ls">Legal: there is no direct conversion under the current Act, so a new VCC plus asset-transfer and restructuring agreements, with tax advice. MAS is reported to be considering allowing conversion, which would open a one-time wave.<a class="ref" href="#r5">5</a></span></div></div>
+    <div class="node"><div class="tag">Node D · Family office</div><div class="d"><b>Single or multi-family office formalises into a VCC sub-fund.</b><span class="ls">Legal: sub-fund constitution terms, 13O/13U application, governance and in-specie contribution documents, AML.</span></div></div>
+    <div class="node"><div class="tag">Node E · Host then graduate</div><div class="d"><b>Emerging manager launches a sub-fund under a platform umbrella, then graduates to its own VCC and licence.</b><span class="ls">Legal: hosting agreement first; later own incorporation, licence application and migration of the sub-fund.</span></div></div>
+    <div class="node"><div class="tag">Node F · Scale up</div><div class="d"><b>Standalone VCC adds sub-funds and becomes an umbrella.</b><span class="ls">Legal: sub-fund registration (ACRA ~S$400 each), new offer documents per sub-fund, segregation disclosures. This is the bridge into the expansion work overleaf.</span></div></div>
+  </div>
+  <div class="foot"><span class="f">VCC Value Chain &amp; Alphas</span><span class="pg">01 / 04</span></div>
+</div>
+
+<!-- SHEET 2 : EXPANSION -->
+<div class="sheet">
+  <div class="body">
+    <h2><span class="n">02</span>Already a VCC: the expansion legal services</h2>
+    <p>Formation is a one-off; the lifetime value sits in what comes after. As a VCC grows, it generates a recurring stream of legal work, which is the annuity the formation node only opens.</p>
+    <table>
+      <tr><th>Expansion workstream</th><th>What it involves</th><th>Legal services needed</th></tr>
+      <tr><td><b>Sub-fund factory</b></td><td>Each new strategy, vintage or investor pool becomes a sub-fund.</td><td>Sub-fund registration, offer documents, side letters, segregation disclosures.</td></tr>
+      <tr><td><b>Investor base growth</b></td><td>New share classes; anchor investors; later retail access.</td><td>Side-letter and MFN management; retail authorisation (prospectus, PHS, Code on CIS, third director).</td></tr>
+      <tr><td><b>Fund finance</b></td><td>Subscription (capital-call) lines and NAV facilities.</td><td>Facility agreements, security over commitments, legal opinions.</td></tr>
+      <tr><td><b>Vehicle proliferation</b></td><td>Parallel funds, feeders, co-investment and continuation vehicles.</td><td>Parallel and feeder documents, co-invest agreements, GP-led secondaries.</td></tr>
+      <tr><td><b>Liquidity events</b></td><td>Redemptions, gates, transfers, sub-fund termination, wind-down.</td><td>Restructuring, transfer documents, termination and winding-up advice.</td></tr>
+      <tr><td><b>Regulatory upkeep</b></td><td>Licence variations, MAS returns, AML audits.</td><td>Ongoing regulatory and compliance advisory.</td></tr>
+      <tr><td><b>Tax maintenance</b></td><td>13O/13U substance under the 2025 tiered-spend rules; GST remission.</td><td>Incentive variation, substance compliance, tax structuring.<a class="ref" href="#r2">2</a></td></tr>
+      <tr><td><b>Manager-level</b></td><td>GP stakes, manager M&amp;A, carry and key-person changes.</td><td>Corporate, employment-incentive and transaction work.</td></tr>
+      <tr><td><b>Disputes</b></td><td>Investor, valuation and enforcement disputes.</td><td>Contentious funds and regulatory work.</td></tr>
+    </table>
+    <p><a class="ref" href="#r3">3</a> The strategic read: a single umbrella VCC is not one mandate but a stream. The umbrella structure exists precisely so sub-funds share a board, manager and providers, which means the same client returns to the same providers repeatedly. Capturing the formation is the foot in the door; capturing the expansion is the business.</p>
+
+    <h2><span class="n">03</span>The lifecycle, in one line</h2>
+    <div class="caveat"><b>Lifecycle</b>Entry (Nodes A to F) → first sub-fund and first close → sub-fund factory and investor growth → fund finance and proliferation → maintenance and disputes → wind-down. Legal and service spend recurs at every arrow, not just the first.</div>
+  </div>
+  <div class="foot"><span class="f">VCC Value Chain &amp; Alphas</span><span class="pg">02 / 04</span></div>
+</div>
+
+<!-- SHEET 3 : COTTAGE INDUSTRY -->
+<div class="sheet">
+  <div class="body">
+    <h2><span class="n">04</span>The VCC-as-a-service cottage industry: players and price points</h2>
+    <p><a class="ref" href="#r4">4</a> The framework spawned an entire servicing layer, the 250-plus providers MAS and ACRA count. It clusters into six bands, several of which bundle the others into a single quote.</p>
+    <table>
+      <tr><th>Band</th><th>Players (illustrative)</th><th>Role</th><th>Indicative price</th></tr>
+      <tr><td><b>Statutory (ACRA)</b></td><td>ACRA (government)</td><td>Incorporation and registration fees</td><td>S$8,000 umbrella; S$400/sub-fund; ~S$9,000 re-domiciliation. Non-negotiable.<a class="ref" href="#r7">7</a></td></tr>
+      <tr><td><b>Hosted-manager platforms</b></td><td>Aura Group; Amicorp (AAMS)</td><td>Licensed FM hosts your sub-fund under its umbrella; you skip your own licence</td><td>Setup fee plus a share of AUM (admin often ~0.20% AUM, capped on larger funds).<a class="ref" href="#r9">9</a><a class="ref" href="#r10">10</a></td></tr>
+      <tr><td><b>Fund administrators / corporate services</b></td><td>Vistra; Trustmoore; Portcullis; Apex; IQ-EQ; Ocorian; Sovereign; Tricor</td><td>End-to-end: NAV, registry, corp sec, setup, governance</td><td>Setup packages plus annual admin (commonly tens of thousands S$/yr) or % AUM.<a class="ref" href="#r11">11</a><a class="ref" href="#r12">12</a></td></tr>
+      <tr><td><b>VCC-as-a-service / digital platforms</b></td><td>Auptimate; Piloto Asia; vccsingapore operators; Raffles Corporate Services</td><td>Productised, partly-automated setup and admin</td><td>Productised setup packages; lean PE/VC one-sub-fund launch ~S$50k to S$125k; annual ops ~S$40k to S$100k+.<a class="ref" href="#r8">8</a></td></tr>
+      <tr><td><b>Law firms</b></td><td>A&amp;G, Rajah &amp; Tann (top); CNPLaw, PDLegal (boutique)</td><td>Structuring, constitution, offer docs, licensing, disputes</td><td>Legal slice of setup commonly ~S$15k to S$40k+; bespoke and complex higher.</td></tr>
+      <tr><td><b>Tax, secretary, director, auditor, AML</b></td><td>Big 4 + boutiques; directors-for-hire; eligible FIs</td><td>13O/13U, corp sec, resident director, audit, AML outsourcing</td><td>Project and annual retainers; audit fees; AML agent fees.</td></tr>
+    </table>
+    <div class="caveat"><b>On the named players</b>ZICO appears as a regional ASEAN corporate and professional-services group; a specific VCC-platform offering was not confirmed in this scan, so treat it as a corporate-services band entry to verify. CNPLaw sits in the law-firm band. All price points are indicative ranges from public guides, not quotes, and the VCC Grant Scheme that once co-funded up to 70 percent of setup (capped S$150,000, later reduced to 30 percent capped S$30,000) ended on 15 January 2025, so the full cost is now borne by the manager.<a class="ref" href="#r6">6</a></div>
+    <p>The structural tell: the most powerful players are the bundlers, the hosted-manager platforms and the administrators, because they sell the licence, the vehicle and the ongoing admin as one recurring relationship. Law firms sell the highest-value slice but the least sticky one.</p>
+  </div>
+  <div class="foot"><span class="f">VCC Value Chain &amp; Alphas</span><span class="pg">03 / 04</span></div>
+</div>
+
+<!-- SHEET 4 : ALPHAS + TAM -->
+<div class="sheet">
+  <div class="body">
+    <h2><span class="n">05</span>Where the Alphas are</h2>
+    <div class="alpha"><div class="ah"><div class="nm"><span>Alpha 1</span>The Migration Node</div><span class="rt">Highest value</span></div><div class="ab">More than 70 percent of alternative funds sold in Singapore are still offshore corporate funds, and rising Cayman audit and substance costs are closing the gap to onshore. Owning the offshore-to-VCC re-domiciliation flow is the single largest, highest-value, most underserved entry point.<a class="ref" href="#r3">3</a></div></div>
+    <div class="alpha"><div class="ah"><div class="nm"><span>Alpha 2</span>The Sub-Fund Factory</div><span class="rt">Annuity</span></div><div class="ab">Each umbrella spawns sub-funds repeatedly. The recurring, standardised expansion work is where lifetime value sits, not the one-off formation. Win the umbrella, harvest the sub-funds.</div></div>
+    <div class="alpha"><div class="ah"><div class="nm"><span>Alpha 3</span>The Orchestration Layer</div><span class="rt">Platform</span></div><div class="ab">The 250-plus providers are fragmented and nobody owns the workflow connecting manager, administrator, counsel and MAS. The intake-and-routing layer (the engine and Managing the Unknowns) can be the connective tissue that directs work across the cottage industry and clips both setup and recurring spend.</div></div>
+    <div class="alpha"><div class="ah"><div class="nm"><span>Alpha 4</span>The Volume Tail</div><span class="rt">Underserved</span></div><div class="ab">Around 600 managers and 2,000-plus family offices are price-sensitive and underserved by the top firms. A productised fixed-fee offering wins the standardised tail the Big Four will not chase.</div></div>
+    <div class="alpha"><div class="ah"><div class="nm"><span>Alpha 5</span>The Conversion Catalyst</div><span class="rt">Optionality</span></div><div class="ab">If MAS permits conversion of existing SG companies and unit trusts into VCCs, a one-time migration wave opens. Positioning the orchestration layer ahead of that rule change is a cheap call option.<a class="ref" href="#r5">5</a></div></div>
+
+    <h2><span class="n">06</span>Where the TAM is (indicative)</h2>
+    <div class="tam">
+      <div class="t"><div class="lab">TAM</div><div class="v">~S$100m+/yr</div><div class="d">All VCC services: new setup plus recurring admin, legal and tax on the installed base, before counting the offshore migration pool.</div></div>
+      <div class="t"><div class="lab">SAM</div><div class="v">~S$15 to 35m/yr</div><div class="d">Setup-and-intake plus the routable legal-formation and sub-fund slice the engine can touch via partners and platforms.</div></div>
+      <div class="t"><div class="lab">SOM (yr 1 to 2)</div><div class="v">low single-digit %</div><div class="d">One or two partner firms plus a platform pilot, capturing setup intake and sub-fund recurring.</div></div>
+    </div>
+    <div class="caveat"><b>How the TAM is built</b>Roughly 300 new VCCs per year at S$50k to S$125k of services each, plus an installed base near 1,400 at S$40k to S$100k per year of recurring services, puts the total services market on the order of S$100m-plus per year and growing. These are indicative estimates assembled from public cost ranges and counts, not measured market data; treat them as orders of magnitude.<a class="ref" href="#r8">8</a></div>
+
+    <h2><span class="n">07</span>Read and recommendation</h2>
+    <div class="scen">
+      <div class="r"><div class="lab bull">Bull</div><div class="txt">The orchestration layer becomes the default intake for migration and sub-fund work across several providers, clipping a recurring fee on a large share of formations and expansions.</div></div>
+      <div class="r"><div class="lab base">Base</div><div class="txt">The engine wins the volume tail through one or two partner firms and a platform, a profitable niche capturing setup intake plus sub-fund recurring on a modest share.</div></div>
+      <div class="r"><div class="lab bear">Bear</div><div class="txt">The bundlers (hosted-manager platforms and administrators) build or buy the same intake layer and fold it into their own stack, leaving no independent orchestration gap.</div></div>
+    </div>
+    <div class="rec">Play Alpha 1 and Alpha 3 together: aim the engine at the offshore-to-VCC migration node and position it as the orchestration layer across the cottage industry, monetised on recurring sub-fund expansion (Alpha 2), starting with the underserved volume tail (Alpha 4). The bundlers are both the competition and the most likely acquirer, which is itself a strategic exit path.</div>
+
+    <h2><span class="n">REF</span>Sources</h2>
+    <ol class="refs">
+      <li id="r2">Harvest Accounting, Singapore VCC guide (~1,200 VCCs by Mar 2025, ~600 FIs; 2025 rule changes). <a href="https://www.harvestaccounting.com.sg/post/singapore-variable-capital-company-vcc-guide">harvestaccounting.com.sg</a></li>
+      <li id="r3">Trustmoore, Variable Capital Companies (~1,400 VCCs Q1 2025; 400+550 in first two years; &gt;70% alt funds offshore corporate). <a href="https://www.trustmoore.com/variable-capital-companies/">trustmoore.com</a></li>
+      <li id="r4">IFC Review, Spotlighting the VCC (1,000+ VCCs, ~2,000 sub-funds, 544 FMCs, 250+ service providers). <a href="https://www.ifcreview.com/2024/08/singapore-spotlighting-the-variable-capital-company/">ifcreview.com</a></li>
+      <li id="r5">Ogier, Evolution of VCCs (969 VCCs / 1,995 sub-funds; MAS considering conversion of existing companies and unit trusts). <a href="https://www.ogier.com/news-and-insights/news/the-evolution-of-variable-capital-companies-vccs-in-singapore/">ogier.com</a></li>
+      <li id="r6">Piloto Asia / Trustmoore, VCC Grant Scheme (70% capped S$150k, extension 30% capped S$30k, ended 15 Jan 2025). <a href="https://www.pilotoasia.com/guide/vcc-singapore">pilotoasia.com</a></li>
+      <li id="r7">VCC Singapore, cost calculator (ACRA S$8,000 / S$400 / ~S$9,000 re-domiciliation; admin ~0.20% AUM). <a href="https://vccsingapore.com/vcc-cost-calculator/">vccsingapore.com</a></li>
+      <li id="r8">Auptimate, VCC launch costs and timelines (~S$50k to S$125k setup; ~S$40k to S$100k+ annual). <a href="https://auptimate.com/resources/singapore-vcc-launch-costs-timelines-guide/">auptimate.com</a></li>
+      <li id="r9">Aura Group, plug-and-play umbrella VCC and sub-fund hosting. <a href="https://www.aura.co/variable-capital-company">aura.co</a></li>
+      <li id="r10">Amicorp, plug-and-play umbrella VCC platform with MAS-licensed fund management. <a href="https://www.amicorp.com/services/capital-markets-services/singapore-vcc/">amicorp.com</a></li>
+      <li id="r11">Vistra, end-to-end Singapore VCC fund services and re-domiciliation. <a href="https://www.vistra.com/funds/singapore-vcc-services">vistra.com</a></li>
+      <li id="r12">Portcullis Group, Singapore VCC fund services. <a href="https://portcullis.group/en/services-fund-services-singapore/">portcullis.group</a></li>
+    </ol>
+  </div>
+  <div class="foot"><span class="f">Seeking Alpha Advisors · Indicative estimates from public sources. Not legal, tax or investment advice.</span><span class="pg">04 / 04</span></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCC Document Engine — Proof of Concept · Seeking Alpha Advisors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; box-sizing:border-box; margin:0; padding:0; }
+  :root{
+    --gold:#C4A25C; --gold-dim:rgba(196,162,92,0.2);
+    --void:#050608; --panel:#0A0C10; --panel2:#0d1015; --border:rgba(255,255,255,0.1);
+    --text:#EAEAEA; --muted:#8B8D91; --red:#D24A4A; --green:#4AD295;
+    --head:"Calibri","Segoe UI",system-ui,sans-serif; --body:"Inter",sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  html,body{background:var(--void);color:var(--text);font-family:var(--body);font-weight:300;height:100%;}
+  body{
+    background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+    background-size:40px 40px;
+  }
+  /* MASTHEAD */
+  .masthead{background:#000;border-bottom:1px solid var(--gold-dim);padding:16px 26px;display:flex;justify-content:space-between;align-items:baseline;position:sticky;top:0;z-index:60;}
+  .masthead .firm{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
+  .masthead .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .masthead .pill{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--void);background:var(--gold);padding:3px 9px;}
+  /* TITLE STRIP */
+  .titlestrip{padding:22px 26px 18px;border-bottom:1px solid var(--border);}
+  .titlestrip .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .titlestrip h1{font-family:var(--head);font-weight:400;font-size:27px;letter-spacing:-0.01em;}
+  .titlestrip h1 em{font-style:italic;color:var(--gold);}
+  .titlestrip p{color:var(--muted);font-size:12.5px;margin-top:8px;max-width:820px;}
+  /* STANDARDIZATION LEGEND */
+  .stdlegend{display:flex;gap:0;border:1px solid var(--border);margin:16px 26px 0;background:var(--panel);}
+  .stdlegend .s{flex:1;padding:12px 16px;border-right:1px solid var(--border);}
+  .stdlegend .s:last-child{border-right:none;}
+  .stdlegend .tag{font-family:var(--mono);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;display:inline-block;margin-bottom:6px;}
+  .tag.form{background:rgba(74,210,149,0.14);color:var(--green);border:1px solid rgba(74,210,149,0.4);}
+  .tag.model{background:rgba(196,162,92,0.14);color:var(--gold);border:1px solid var(--gold-dim);}
+  .tag.bespoke{background:rgba(210,74,74,0.14);color:var(--red);border:1px solid rgba(210,74,74,0.4);}
+  .stdlegend .s .d{font-size:11.5px;color:var(--muted);}
+  .stdlegend .s .d b{color:var(--text);font-weight:500;}
+  /* LAYOUT */
+  .app{display:grid;grid-template-columns:380px 1fr;gap:0;align-items:start;}
+  /* INPUT PANEL */
+  .inputs{border-right:1px solid var(--border);padding:0 0 60px;position:sticky;top:53px;max-height:calc(100vh - 53px);overflow-y:auto;}
+  .inputs::-webkit-scrollbar{width:8px;} .inputs::-webkit-scrollbar-thumb{background:var(--gold-dim);}
+  .ingroup{border-bottom:1px solid var(--border);padding:18px 22px;}
+  .ingroup .gl{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .ingroup .gl .n{color:var(--muted);}
+  .fld{margin-bottom:13px;}
+  .fld label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;letter-spacing:0.02em;}
+  .fld input[type=text],.fld select,.fld textarea{width:100%;background:#000;border:1px solid var(--border);color:var(--text);font-family:var(--body);font-size:13px;padding:8px 10px;border-radius:0;}
+  .fld textarea{resize:vertical;min-height:48px;font-family:var(--mono);font-size:11px;}
+  .fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--gold);}
+  .radios{display:flex;flex-wrap:wrap;gap:6px;}
+  .radios label{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text);background:#000;border:1px solid var(--border);padding:6px 10px;cursor:pointer;}
+  .radios label:hover{border-color:var(--gold-dim);}
+  .radios input{accent-color:var(--gold);}
+  .radios input:checked + span{color:var(--gold);}
+  .hidden{display:none !important;}
+  /* OUTPUT PANEL */
+  .output{min-height:80vh;}
+  .tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:53px;z-index:40;}
+  .tab{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);padding:13px 16px;cursor:pointer;border-right:1px solid var(--border);border-bottom:2px solid transparent;white-space:nowrap;}
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--gold);border-bottom-color:var(--gold);background:var(--void);}
+  .panecontent{padding:24px 28px 80px;}
+  .docbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+  .docbar .lhs{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .docbar h2{font-family:var(--head);font-weight:500;font-size:19px;}
+  .docbar .btns{display:flex;gap:8px;}
+  .btn{font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;background:#000;border:1px solid var(--gold-dim);color:var(--gold);padding:7px 12px;cursor:pointer;}
+  .btn:hover{background:var(--gold);color:var(--void);}
+  .docnote{font-size:11.5px;color:var(--muted);margin-bottom:14px;border-left:2px solid var(--gold-dim);padding-left:12px;}
+  pre.doc{background:#000;border:1px solid var(--border);padding:22px 24px;font-family:var(--mono);font-size:11.5px;line-height:1.8;color:var(--text);white-space:pre-wrap;word-wrap:break-word;}
+  pre.doc .ph{color:var(--gold);}
+  /* CHECKLIST */
+  .ck{border:1px solid var(--border);}
+  .ck .row{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--panel);}
+  .ck .row:last-child{border-bottom:none;}
+  .ck .row .nm{flex:1;font-size:13px;}
+  .ck .row .nm .sub{display:block;font-family:var(--mono);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:3px;}
+  .ck .row .stage{font-family:var(--mono);font-size:9px;color:var(--muted);min-width:54px;letter-spacing:0.06em;padding-top:2px;}
+  .grp-title{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin:22px 0 8px;}
+  .grp-title:first-child{margin-top:0;}
+  .disc{margin-top:26px;border:1px solid var(--red);background:rgba(210,74,74,0.05);padding:14px 16px;font-size:11.5px;color:var(--muted);}
+  .disc b{color:var(--red);font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:6px;}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--void);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;padding:10px 20px;opacity:0;transition:opacity .25s;z-index:100;pointer-events:none;}
+  .toast.show{opacity:1;}
+  @media(max-width:880px){
+    .app{grid-template-columns:1fr;} .inputs{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--border);}
+    .tabs{position:static;} .stdlegend{flex-direction:column;margin:16px 16px 0;} .stdlegend .s{border-right:none;border-bottom:1px solid var(--border);}
+  }
+  @media print{ .masthead,.inputs,.tabs,.docbar .btns,.stdlegend,.titlestrip p{display:none !important;} .app{display:block;} }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div><span class="firm">Seeking Alpha Advisors</span> &nbsp; <span class="tag">Research, Advisory &amp; Execution</span></div>
+  <span class="pill">Proof of Concept</span>
+</div>
+
+<div class="titlestrip">
+  <div class="eyebrow">Document Engine · Singapore VCC</div>
+  <h1>VCC <em>Document Engine</em></h1>
+  <p>Set the input variables on the left. The engine assembles the required document set and pre-fills the constitution model and the bespoke commercial drafts on the right. Regulator forms are routed to source, not generated. This is a structural proof of concept: outputs are skeleton drafts to brief counsel, not execution-ready legal documents.</p>
+</div>
+
+<div class="stdlegend">
+  <div class="s"><span class="tag form">Regulator Form</span><div class="d"><b>Standardized.</b> Fixed government form. Retrieve from ACRA / MAS, do not draft.</div></div>
+  <div class="s"><span class="tag model">SAL Model</span><div class="d"><b>Semi-standard.</b> Academy of Law model constitution. Adapt to the inputs.</div></div>
+  <div class="s"><span class="tag bespoke">Bespoke</span><div class="d"><b>Not standardized.</b> Customized per strategy and investors. Engine drafts the skeleton.</div></div>
+</div>
+
+<div class="app">
+
+  <!-- INPUTS -->
+  <div class="inputs" id="inputs">
+    <div class="ingroup">
+      <div class="gl">Fund Identity</div>
+      <div class="fld"><label>Fund / VCC name</label><input type="text" data-k="fundName" value="Alpha Capital VCC"></div>
+      <div class="fld"><label>Registered office</label><input type="text" data-k="office" value="Singapore"></div>
+      <div class="fld"><label>Financial year-end</label><input type="text" data-k="fye" value="31 December"></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V2 <span class="n">· Structure</span></div>
+      <div class="fld"><div class="radios" data-radio="shape">
+        <label><input type="radio" name="shape" value="Standalone" checked><span>Standalone</span></label>
+        <label><input type="radio" name="shape" value="Umbrella"><span>Umbrella</span></label>
+      </div></div>
+      <div class="fld" id="subfundsFld"><label>Sub-fund names (comma separated)</label><input type="text" data-k="subfunds" value="Sub-Fund I, Sub-Fund II"></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V3 <span class="n">· Liquidity</span></div>
+      <div class="radios" data-radio="liquidity">
+        <label><input type="radio" name="liquidity" value="Open-ended" checked><span>Open-ended</span></label>
+        <label><input type="radio" name="liquidity" value="Closed-ended"><span>Closed-ended</span></label>
+      </div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V4 <span class="n">· Investor Class</span></div>
+      <div class="radios" data-radio="investor">
+        <label><input type="radio" name="investor" value="Accredited / Institutional" checked><span>A / I only</span></label>
+        <label><input type="radio" name="investor" value="Retail"><span>Retail</span></label>
+      </div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V5 <span class="n">· Manager Route</span></div>
+      <div class="fld"><div class="radios" data-radio="manager">
+        <label><input type="radio" name="manager" value="Own CMS licence" checked><span>Own CMS</span></label>
+        <label><input type="radio" name="manager" value="VCFM"><span>VCFM</span></label>
+        <label><input type="radio" name="manager" value="Hosted"><span>Hosted</span></label>
+      </div></div>
+      <div class="fld"><label>Fund manager name</label><input type="text" data-k="managerName" value="Alpha Asset Management Pte Ltd"></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V6 <span class="n">· Origin</span></div>
+      <div class="radios" data-radio="origin">
+        <label><input type="radio" name="origin" value="Fresh incorporation" checked><span>Fresh</span></label>
+        <label><input type="radio" name="origin" value="Re-domiciliation"><span>Re-domicile</span></label>
+      </div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V8 / V9 <span class="n">· Strategy &amp; Geography</span></div>
+      <div class="fld"><label>Strategy / asset class</label><select data-k="strategy">
+        <option>Private Equity</option><option>Venture Capital</option><option>Private Credit</option>
+        <option>Real Estate</option><option>Hedge</option><option>Fund-of-Funds</option><option>Single Asset</option>
+      </select></div>
+      <div class="fld"><label>Investor geography</label><select data-k="geography">
+        <option>Singapore</option><option selected>Regional</option><option>Global</option>
+      </select></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">Governance</div>
+      <div class="fld"><label>Resident director</label><input type="text" data-k="resDir" value="[Resident Director Name]"></div>
+      <div class="fld"><label>Manager-linked director</label><input type="text" data-k="mgrDir" value="[Manager-Linked Director Name]"></div>
+      <div class="fld" id="indDirFld"><label>Independent director (retail)</label><input type="text" data-k="indDir" value="[Independent Director Name]"></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">Economic Terms</div>
+      <div class="fld"><label>Management fee</label><input type="text" data-k="mgmtFee" value="2.0% per annum of NAV"></div>
+      <div class="fld"><label>Performance fee / carried interest</label><input type="text" data-k="perfFee" value="20% of net profits"></div>
+      <div class="fld"><label>Hurdle / preferred return</label><input type="text" data-k="hurdle" value="8% per annum"></div>
+      <div class="fld"><label>Liquidity / lock-up terms</label><input type="text" data-k="lockup" value="Quarterly redemption, 90 days notice, 12-month soft lock"></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">Service Providers</div>
+      <div class="fld"><label>Fund administrator</label><input type="text" data-k="admin" value="[Administrator]"></div>
+      <div class="fld"><label>Custodian / approved trustee</label><input type="text" data-k="custodian" value="[Custodian]"></div>
+      <div class="fld"><label>Auditor</label><input type="text" data-k="auditor" value="[Auditor]"></div>
+    </div>
+
+    <div class="ingroup">
+      <div class="gl">V7 <span class="n">· Tax Posture</span></div>
+      <div class="radios" data-radio="tax">
+        <label><input type="radio" name="tax" value="None" checked><span>None</span></label>
+        <label><input type="radio" name="tax" value="13O"><span>13O</span></label>
+        <label><input type="radio" name="tax" value="13U"><span>13U</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output">
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-tab="checklist">Document Set</div>
+      <div class="tab" data-tab="constitution">Constitution</div>
+      <div class="tab" data-tab="im">Offer Doc (IM)</div>
+      <div class="tab" data-tab="sub">Subscription</div>
+      <div class="tab" data-tab="fma">Mgmt Agreement</div>
+      <div class="tab" data-tab="side">Side Letter</div>
+      <div class="tab" data-tab="forms">Regulator Forms</div>
+    </div>
+    <div class="panecontent" id="pane"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+const state={
+  fundName:"Alpha Capital VCC", office:"Singapore", fye:"31 December",
+  shape:"Standalone", subfunds:"Sub-Fund I, Sub-Fund II",
+  liquidity:"Open-ended", investor:"Accredited / Institutional",
+  manager:"Own CMS licence", managerName:"Alpha Asset Management Pte Ltd",
+  origin:"Fresh incorporation", strategy:"Private Equity", geography:"Regional",
+  resDir:"[Resident Director Name]", mgrDir:"[Manager-Linked Director Name]", indDir:"[Independent Director Name]",
+  mgmtFee:"2.0% per annum of NAV", perfFee:"20% of net profits", hurdle:"8% per annum",
+  lockup:"Quarterly redemption, 90 days notice, 12-month soft lock",
+  admin:"[Administrator]", custodian:"[Custodian]", auditor:"[Auditor]", tax:"None"
+};
+let activeTab="checklist";
+
+/* ---------- helpers ---------- */
+const isUmbrella=()=>state.shape==="Umbrella";
+const isRetail=()=>state.investor==="Retail";
+const isOpen=()=>state.liquidity==="Open-ended";
+const isReDom=()=>state.origin==="Re-domiciliation";
+const subList=()=>state.subfunds.split(",").map(s=>s.trim()).filter(Boolean);
+
+/* ---------- CHECKLIST ---------- */
+function buildChecklist(){
+  const groups=[];
+  // Vehicle / incorporation
+  const v=[];
+  v.push(["Name reservation application","ACRA VCC portal","02","form"]);
+  v.push(["VCC Constitution","SAL "+(isOpen()?"open-ended":"closed-end")+" model","02","model"]);
+  v.push(["Incorporation application","ACRA","02","form"]);
+  v.push(["Director / secretary consents + fit-and-proper declarations","Officers","02","form"]);
+  v.push(["Registered office confirmation","Physical SG address","02","form"]);
+  if(isUmbrella()) v.push(["Sub-fund registration ("+subList().length+")","ACRA · per sub-fund","02","form"]);
+  if(isReDom()) v.push(["Transfer-of-registration pack + certified foreign constitution & incorporation cert + foreign de-registration notice","ACRA · re-domiciliation","02","form"]);
+  groups.push(["Vehicle & Incorporation",v]);
+  // Manager
+  const m=[];
+  if(state.manager==="Own CMS licence"||state.manager==="VCFM"){
+    m.push(["CMS licence application","MAS Form 1A"+(state.manager==="VCFM"?" (VCFM regime)":""),"01","form"]);
+    m.push(["Business plan","Applicant-prepared","01","bespoke"]);
+    m.push(["Compliance manual","A/I LFMC standard","01","bespoke"]);
+    m.push(["AML / CFT policies & procedures","SFA + MAS Notices","01","bespoke"]);
+    m.push(["Risk management framework","","01","bespoke"]);
+    m.push(["IT / cybersecurity policy","MAS technology risk","01","bespoke"]);
+  } else {
+    m.push(["Hosting agreement with licensed manager","In lieu of own CMS licence","01","bespoke"]);
+    m.push(["AML / CFT onboarding pack to host","Host's framework","01","bespoke"]);
+  }
+  groups.push(["Manager",m]);
+  // Governance / providers
+  const g=[];
+  g.push(["Board resolutions (directors, secretary, auditor)","","03","bespoke"]);
+  g.push(["Fund Management Agreement","VCC ↔ manager","03","bespoke"]);
+  g.push(["Fund Administration Agreement","NAV, registry, investor services","03","bespoke"]);
+  g.push(["Custodian Agreement","Approved custodian / trustee","03","bespoke"]);
+  g.push(["Auditor engagement letter","SG-approved firm","03","bespoke"]);
+  if(state.strategy==="Hedge") g.push(["Prime brokerage agreement","Rehypothecation limits","03","bespoke"]);
+  groups.push(["Governance & Providers",g]);
+  // Offer / investor
+  const o=[];
+  if(isRetail()){
+    o.push(["Prospectus + Product Highlights Sheet","MAS OPERA Form 1 · Code on CIS","04","form"]);
+  } else {
+    o.push(["Information Memorandum (PPM)","Restricted / A-I offer","04","bespoke"]);
+  }
+  o.push(["Subscription Agreement","Per investor","04","bespoke"]);
+  o.push(["Investor questionnaire / "+(isRetail()?"suitability assessment":"Accredited Investor declaration"),"KYC + suitability","04","bespoke"]);
+  o.push(["Side letters","Anchor investors only","04","bespoke"]);
+  o.push(["Summary of terms + marketing deck","Counsel-reviewed","04","bespoke"]);
+  groups.push(["Offer & Investor",o]);
+  // Integrity
+  const i=[];
+  i.push(["AML/CFT outsourcing agreement","Eligible FI · MAS Notice VCC-N01","05","bespoke"]);
+  i.push(["Register of members","Private","05","form"]);
+  i.push(["Register of beneficial owners / controllers","","05","form"]);
+  groups.push(["AML/CFT & Ownership",i]);
+  // Tax
+  if(state.tax!=="None"){
+    const t=[];
+    t.push([state.tax+" tax incentive application","MAS + IRAS","06","form"]);
+    t.push(["FSI-FM application for manager","Concessionary rate","06","form"]);
+    groups.push(["Tax Incentive ("+state.tax+")",t]);
+  }
+  // Ongoing
+  const og=[];
+  og.push(["Audited financial statements"+(isUmbrella()?" (per sub-fund)":""),"No audit exemption","07","form"]);
+  og.push(["ACRA annual return","Within 7 months of FYE","07","form"]);
+  if(state.manager!=="Hosted") og.push(["MAS periodic returns","Quarterly / annual (LFMC)","07","form"]);
+  groups.push(["Launch & Ongoing",og]);
+  return groups;
+}
+function renderChecklist(){
+  const groups=buildChecklist();
+  let count=0; groups.forEach(g=>count+=g[1].length);
+  let html='<div class="docbar"><div class="lhs"><h2>Required document set</h2></div><div class="btns"><button class="btn" onclick="window.print()">Print</button></div></div>';
+  html+='<div class="docnote">'+count+' items, assembled from your inputs. Tags: <span style="color:var(--green)">form</span> = retrieve from regulator, <span style="color:var(--gold)">model</span> = adapt SAL model, <span style="color:var(--red)">bespoke</span> = drafted by the engine (see tabs).</div>';
+  groups.forEach(([title,items])=>{
+    html+='<div class="grp-title">'+title+'</div><div class="ck">';
+    items.forEach(([nm,sub,stage,tag])=>{
+      html+='<div class="row"><div class="stage">NODE '+stage+'</div><div class="nm">'+nm+(sub?'<span class="sub">'+sub+'</span>':'')+'</div><span class="tag '+tag+'">'+(tag==='form'?'Form':tag==='model'?'Model':'Bespoke')+'</span></div>';
+    });
+    html+='</div>';
+  });
+  html+=disclaimer();
+  return html;
+}
+
+/* ---------- DOCUMENT GENERATORS ---------- */
+function constitution(){
+  let s=`VARIABLE CAPITAL COMPANY — CONSTITUTION
+${state.fundName}
+[Adapt from SAL ${isOpen()?'OPEN-ENDED':'CLOSED-END'} model constitution]
+
+1.  NAME AND STATUS
+    1.1  The company is «${state.fundName}», a variable capital company
+         incorporated under the Variable Capital Companies Act 2018.
+    1.2  Registered office: «${state.office}».
+    1.3  Financial year-end: «${state.fye}».
+
+2.  SOLE PURPOSE
+    2.1  The sole object of the VCC is to act as one or more collective
+         investment schemes within the meaning of the Securities and Futures Act.
+
+3.  STRUCTURE
+`;
+  if(isUmbrella()){
+    s+=`    3.1  The VCC is an UMBRELLA VCC comprising the sub-funds:\n`;
+    subList().forEach((sf,i)=> s+=`         (${String.fromCharCode(97+i)}) «${sf}»\n`);
+    s+=`    3.2  The assets and liabilities of each sub-fund are segregated and
+         ring-fenced from every other sub-fund (s 29, VCC Act). Any provision
+         inconsistent with such segregation is void.
+    3.3  A sub-fund has no separate legal personality but is treated as a
+         separate person for insolvency and enforcement.
+`;
+  } else {
+    s+=`    3.1  The VCC is a STANDALONE (non-umbrella) VCC.\n`;
+  }
+  s+=`
+4.  SHARE CAPITAL
+    4.1  Shares have no par value. Paid-up capital equals net asset value (NAV).
+    4.2  Share classes and rights as set out in Schedule 1.
+
+5.  ISSUE AND REDEMPTION
+`;
+  if(isOpen()){
+    s+=`    5.1  Shares are issued and redeemed at NAV per share on each dealing day.
+    5.2  Redemption terms: «${state.lockup}».
+    5.3  Issue, redemption and repurchase may occur without member approval.
+`;
+  } else {
+    s+=`    5.1  This is a closed-end VCC. Redemptions are restricted; capital is
+         returned on realisation of investments or at end of term.
+    5.2  Distribution / realisation terms: «${state.lockup}».
+`;
+  }
+  s+=`
+6.  DISTRIBUTIONS
+    6.1  Dividends may be paid out of capital and/or profits.
+
+7.  DIRECTORS
+`;
+  if(isRetail()){
+    s+=`    7.1  The VCC operates an authorised scheme: minimum THREE directors
+         including at least ONE independent director.
+    7.2  Resident director: «${state.resDir}».
+         Manager-linked director: «${state.mgrDir}».
+         Independent director: «${state.indDir}».
+`;
+  } else {
+    s+=`    7.1  Minimum ONE director.
+    7.2  Resident director: «${state.resDir}».
+         Manager-linked director: «${state.mgrDir}».
+`;
+  }
+  s+=`    7.3  At least one director is ordinarily resident in Singapore and at
+         least one is a director / qualified representative of the manager.
+
+8.  DELEGATION TO THE FUND MANAGER
+    8.1  Day-to-day management is delegated to «${state.managerName}»
+         (${state.manager==='Hosted'?'hosted under a MAS-licensed manager':state.manager}).
+
+9.  CUSTODY
+    9.1  Approved custodian: «${state.custodian}».
+
+10. NAV, VALUATION & ACCOUNTING
+    10.1 Accounting standard: [SFRS / IFRS / US GAAP].
+    10.2 Valuation policy and dealing calendar per Schedule 2.
+
+11. AMENDMENT
+    11.1 By ordinary resolution; directors may amend without member consent only
+         where no member is prejudiced and no responsibility to members is released.
+
+12. WINDING UP
+    12.1 Companies Act regime (as modified by the VCC Act) applies to the VCC
+         and${isUmbrella()?' to each sub-fund':''}.
+
+SCHEDULE 1 — Share classes        SCHEDULE 2 — Valuation & dealing`;
+  return s;
+}
+
+function im(){
+  let banner = isRetail()
+    ? `[RETAIL OFFER] This Information Memorandum is SUPERSEDED for a retail offer by a
+MAS-registered Prospectus + Product Highlights Sheet (OPERA Form 1) under the
+Code on Collective Investment Schemes. Use this skeleton for internal drafting only.\n\n`
+    : ``;
+  return `INFORMATION MEMORANDUM (PRIVATE PLACEMENT)
+${state.fundName}
+[BESPOKE — draft to counsel]
+
+${banner}1.  IMPORTANT NOTICES & SELLING RESTRICTIONS
+    Offer made in reliance on ${isRetail()?'a registered prospectus':'the private-placement exemptions (s 304 / 305 SFA)'}.
+    Distribution geography: «${state.geography}».
+
+2.  SUMMARY OF TERMS  (must mirror the Constitution, not diverge)
+    Vehicle:        ${state.shape} VCC${isUmbrella()?' ('+subList().length+' sub-funds)':''}
+    Liquidity:      ${state.liquidity}
+    Eligible inv.:  ${state.investor}
+
+3.  INVESTMENT OBJECTIVE & STRATEGY
+    Strategy / asset class: «${state.strategy}».
+    [Objective, target return, investment restrictions, concentration limits.]
+
+4.  THE MANAGER & KEY PERSONS
+    Manager: «${state.managerName}» (${state.manager}).
+    [Track record; key-person bios; conflicts of interest.]
+
+5.  FEES & EXPENSES
+    Management fee:        «${state.mgmtFee}»
+    Performance / carry:   «${state.perfFee}»
+    Hurdle / pref return:  «${state.hurdle}»
+    [Expense allocation; high-water mark.]
+
+6.  SUBSCRIPTION, REDEMPTION & LIQUIDITY
+    «${state.lockup}»
+    [Gates; side-pocket policy; transfer restrictions.]
+
+7.  RISK FACTORS
+    [Market, liquidity, key-person, operational, ${state.strategy==='Hedge'?'leverage, counterparty, ':''}tax, regulatory.]
+
+8.  VALUATION, NAV & SERVICE PROVIDERS
+    Administrator: «${state.admin}»   Custodian: «${state.custodian}»   Auditor: «${state.auditor}»
+
+9.  TAXATION
+    SG posture: ${state.tax==='None'?'no fund tax incentive applied for':state.tax+' incentive (subject to MAS/IRAS conditions)'}.
+    [Investor-level treatment.]
+
+10. AML/CFT, DATA & REPORTING
+    Outsourced to an eligible FI under MAS Notice VCC-N01. Reporting cadence: [ ].`;
+}
+
+function sub(){
+  const elig = isRetail()
+    ? `2.  ELIGIBILITY\n    2.1  Investor confirms eligibility for a retail authorised scheme and has\n         received the Prospectus and Product Highlights Sheet.`
+    : `2.  ELIGIBILITY (ACCREDITED / INSTITUTIONAL)\n    2.1  Investor represents it is an accredited or institutional investor and\n         qualifies under the s 304 / 305 exemption relied upon.`;
+  return `SUBSCRIPTION AGREEMENT
+${state.fundName}
+[BESPOKE — draft to counsel]
+
+1.  SUBSCRIPTION
+    1.1  Investor subscribes for participating shares of [class] in
+         «${state.fundName}»${isUmbrella()?' / sub-fund [ ]':''}.
+    1.2  Subscription amount: [ ].  Dealing date: [ ].
+
+${elig}
+
+3.  REPRESENTATIONS & WARRANTIES
+    3.1  Sophistication, source of funds, sanctions status, authority.
+
+4.  AML / KYC
+    4.1  ${isRetail()?'Suitability assessment':'Accredited Investor declaration'} and supporting
+         documents annexed; processed by «${state.admin}» under MAS Notice VCC-N01.
+
+5.  DISCLOSURE ACKNOWLEDGEMENT
+    5.1  Investor acknowledges the ${isRetail()?'Prospectus':'Information Memorandum'} and its risk factors.
+
+6.  POWER OF ATTORNEY
+    6.1  Investor grants the manager a power of attorney for prescribed acts.
+
+7.  GENERAL
+    7.1  Transfer restrictions; data consent; governing law: Singapore.`;
+}
+
+function fma(){
+  return `FUND MANAGEMENT AGREEMENT
+${state.fundName}  ×  ${state.managerName}
+[BESPOKE — draft to counsel]
+
+1.  APPOINTMENT & MANDATE
+    1.1  The VCC appoints «${state.managerName}» as fund manager with
+         discretionary authority over the «${state.strategy}» mandate.
+    1.2  Manager route: ${state.manager}.
+
+2.  REGULATORY COMPLIANCE
+    2.1  Manager complies with the VCC Act, the SFA and ${state.manager==='Hosted'?'the host manager\u2019s CMS licence conditions':'its CMS licence conditions'}.
+
+3.  FEES
+    3.1  Management fee: «${state.mgmtFee}».
+    3.2  Performance fee / carried interest: «${state.perfFee}», hurdle «${state.hurdle}».
+    3.3  Expense allocation: [ ].  ${state.strategy==='Hedge'?'High-water mark applies.':''}
+
+4.  DELEGATION & OVERSIGHT
+    4.1  Sub-advisory / delegation permitted with oversight of delegates.
+    ${state.strategy==='Hedge'?'4.2  Leverage and prime-brokerage authority per Schedule.':''}
+
+5.  STANDARD OF CARE & LIABILITY
+    5.1  Standard of care; indemnity; liability cap; key-person clause.
+
+6.  TERM & TERMINATION
+    6.1  Term, termination triggers, and orderly hand-over of records.`;
+}
+
+function side(){
+  return `SIDE LETTER
+${state.fundName}  —  [ANCHOR INVESTOR]
+[BESPOKE — draft to counsel · anchor investors only]
+
+1.  PARTIES & INCORPORATION
+    1.1  This side letter modifies the rights of [Anchor Investor] under the
+         Constitution and ${isRetail()?'Prospectus':'Information Memorandum'} of «${state.fundName}».
+
+2.  ECONOMIC TERMS
+    2.1  Fee / carry adjustment to the standard «${state.mgmtFee}» / «${state.perfFee}».
+    2.2  Capacity / co-investment right: [ ].
+
+3.  MOST-FAVOURED-NATION
+    3.1  MFN election: investor may elect terms granted to comparable investors.
+
+4.  KEY-PERSON & REPORTING
+    4.1  Key-person redemption right; enhanced reporting; regulatory carve-outs.
+
+NOTE: confine to true anchor investors; side letters compound governance complexity.`;
+}
+
+function regForms(){
+  const rows=[
+    ["ACRA — Name reservation","Reserve VCC name (held 120 days)","https://www.acra.gov.sg/business-entities/variable-capital-companies"],
+    ["ACRA — VCC incorporation","Incorporate the VCC; file the constitution","https://www.acra.gov.sg/business-entities/variable-capital-companies"],
+    ...(isUmbrella()?[["ACRA — Sub-fund registration","Register each sub-fund of the umbrella","https://www.acra.gov.sg/business-entities/variable-capital-companies"]]:[]),
+    ...(isReDom()?[["ACRA — Transfer of registration","Re-domicile a comparable foreign corporate fund","https://www.acra.gov.sg/business-entities/variable-capital-companies/faqs"]]:[]),
+    ...((state.manager==="Own CMS licence"||state.manager==="VCFM")?[["MAS — Form 1A","CMS licence for fund management"+(state.manager==="VCFM"?" (VCFM regime)":""),"https://www.mas.gov.sg"]]:[]),
+    ...(isRetail()?[["MAS — OPERA Form 1","Authorise the CIS; register Prospectus + PHS","https://singaporefunds.sg/fund-structures/"]]:[]),
+    ...(state.tax!=="None"?[["MAS / IRAS — "+state.tax+" application","Fund tax incentive","https://www.mas.gov.sg"]]:[]),
+    ["MAS Notice VCC-N01","AML/CFT obligations and outsourcing","https://www.mas.gov.sg"]
+  ];
+  let html='<div class="docbar"><div class="lhs"><h2>Regulator forms to retrieve</h2><span class="tag form">Standardized</span></div></div>';
+  html+='<div class="docnote">These are fixed government forms. Do not draft or reconstruct them: retrieve the current version from the source. The set below reflects your inputs.</div><div class="ck">';
+  rows.forEach(([nm,sub,url])=>{
+    html+='<div class="row"><div class="nm">'+nm+'<span class="sub">'+sub+'</span></div><a class="btn" href="'+url+'" target="_blank" rel="noopener">Source</a></div>';
+  });
+  html+='</div>'+disclaimer();
+  return html;
+}
+
+function disclaimer(){
+  return '<div class="disc"><b>Proof of concept · not legal advice</b>Outputs are structural skeletons generated from your inputs to brief counsel and scaffold a data room. They are not execution-ready legal documents. Forms, thresholds and clauses must be verified against the live ACRA and MAS sources, and all drafts reviewed by qualified Singapore counsel before use.</div>';
+}
+
+/* ---------- render doc tab ---------- */
+function docTab(title,tag,note,textFn){
+  return `<div class="docbar"><div class="lhs"><h2>${title}</h2><span class="tag ${tag}">${tag==='model'?'SAL Model':'Bespoke'}</span></div>
+    <div class="btns"><button class="btn" id="copyBtn">Copy</button><button class="btn" onclick="window.print()">Print</button></div></div>
+    <div class="docnote">${note}</div><pre class="doc" id="docText"></pre>`;
+}
+
+function render(){
+  const pane=document.getElementById("pane");
+  if(activeTab==="checklist"){ pane.innerHTML=renderChecklist(); return; }
+  if(activeTab==="forms"){ pane.innerHTML=regForms(); return; }
+  let title,tag,note,fn;
+  if(activeTab==="constitution"){title="VCC Constitution";tag="model";note="Adapted from the SAL "+(isOpen()?"open-ended":"closed-end")+" model constitution. Clauses 3, 5 and 7 are conditional on your structure, liquidity and investor-class inputs.";fn=constitution;}
+  if(activeTab==="im"){title="Information Memorandum";tag="bespoke";note="Private-placement offer document. "+(isRetail()?"Your retail input flags that a registered Prospectus + PHS supersedes this.":"Drafted for an accredited / institutional offer under the s 304/305 exemptions.");fn=im;}
+  if(activeTab==="sub"){title="Subscription Agreement";tag="bespoke";note="Per-investor contract. Eligibility and KYC clauses switch on your investor-class input.";fn=sub;}
+  if(activeTab==="fma"){title="Fund Management Agreement";tag="bespoke";note="VCC-to-manager mandate. Fee, leverage and licence clauses reflect your strategy and manager-route inputs.";fn=fma;}
+  if(activeTab==="side"){title="Side Letter";tag="bespoke";note="Anchor-investor modifications. Keep to true anchors only.";fn=side;}
+  pane.innerHTML=docTab(title,tag,note,fn);
+  document.getElementById("docText").textContent=fn();
+  const cb=document.getElementById("copyBtn");
+  if(cb) cb.onclick=()=>copyText(fn());
+}
+
+/* ---------- copy ---------- */
+function copyText(t){
+  const done=()=>{const el=document.getElementById("toast");el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1100);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallback(t,done));}
+  else fallback(t,done);
+}
+function fallback(t,done){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
+
+/* ---------- conditional field visibility ---------- */
+function syncFields(){
+  document.getElementById("subfundsFld").classList.toggle("hidden",state.shape!=="Umbrella");
+  document.getElementById("indDirFld").classList.toggle("hidden",state.investor!=="Retail");
+}
+
+/* ---------- wiring ---------- */
+document.querySelectorAll("[data-k]").forEach(el=>{
+  el.addEventListener("input",()=>{state[el.dataset.k]=el.value;render();});
+});
+document.querySelectorAll("[data-radio]").forEach(wrap=>{
+  wrap.querySelectorAll("input[type=radio]").forEach(r=>{
+    r.addEventListener("change",()=>{state[wrap.dataset.radio]=r.value;syncFields();render();});
+  });
+});
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");activeTab=t.dataset.tab;render();
+  });
+});
+
+syncFields();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCC Engagement Intake · Managing the Unknowns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; box-sizing:border-box; margin:0; padding:0; }
+  :root{
+    --gold:#C4A25C; --gold-dim:rgba(196,162,92,0.2);
+    --void:#050608; --panel:#0A0C10; --border:rgba(255,255,255,0.1);
+    --text:#EAEAEA; --muted:#8B8D91; --red:#D24A4A; --green:#4AD295;
+    --head:"Calibri","Segoe UI",system-ui,sans-serif; --body:"Inter",sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  html,body{background:var(--void);color:var(--text);font-family:var(--body);font-weight:300;}
+  body{background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+  .masthead{background:#000;border-bottom:1px solid var(--gold-dim);padding:14px 26px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:60;}
+  .wl{display:flex;align-items:center;gap:12px;}
+  .wl .badge{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--void);background:var(--gold);padding:3px 8px;}
+  .wl input{background:#000;border:1px solid var(--border);color:var(--gold);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 9px;width:240px;}
+  .wl input:focus{outline:none;border-color:var(--gold);}
+  .masthead .powered{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .titlestrip{padding:22px 26px 16px;border-bottom:1px solid var(--border);}
+  .titlestrip .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .titlestrip h1{font-family:var(--head);font-weight:400;font-size:27px;letter-spacing:-0.01em;}
+  .titlestrip h1 em{font-style:italic;color:var(--gold);}
+  .titlestrip p{color:var(--muted);font-size:12.5px;margin-top:8px;max-width:830px;}
+  .app{display:grid;grid-template-columns:370px 1fr;}
+  .inputs{border-right:1px solid var(--border);padding:0 0 60px;position:sticky;top:51px;max-height:calc(100vh - 51px);overflow-y:auto;}
+  .inputs::-webkit-scrollbar{width:8px;} .inputs::-webkit-scrollbar-thumb{background:var(--gold-dim);}
+  .ingroup{border-bottom:1px solid var(--border);padding:16px 22px;}
+  .ingroup .gl{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+  .fld{margin-bottom:12px;} .fld label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;}
+  .fld input[type=text],.fld select{width:100%;background:#000;border:1px solid var(--border);color:var(--text);font-family:var(--body);font-size:13px;padding:8px 10px;}
+  .fld input:focus,.fld select:focus{outline:none;border-color:var(--gold);}
+  .radios{display:flex;flex-wrap:wrap;gap:6px;}
+  .radios label{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text);background:#000;border:1px solid var(--border);padding:6px 10px;cursor:pointer;}
+  .radios input{accent-color:var(--gold);} .radios input:checked + span{color:var(--gold);}
+  .hidden{display:none !important;}
+  .output{min-height:80vh;}
+  .tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:51px;z-index:40;}
+  .tab{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);padding:13px 16px;cursor:pointer;border-right:1px solid var(--border);border-bottom:2px solid transparent;}
+  .tab:hover{color:var(--text);} .tab.active{color:var(--gold);border-bottom-color:var(--gold);background:var(--void);}
+  .panecontent{padding:26px 30px 90px;max-width:900px;}
+  .docbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+  .docbar h2{font-family:var(--head);font-weight:500;font-size:20px;}
+  .btn{font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;background:#000;border:1px solid var(--gold-dim);color:var(--gold);padding:8px 13px;cursor:pointer;}
+  .btn:hover{background:var(--gold);color:var(--void);}
+  .brief{background:#000;border:1px solid var(--border);padding:30px 34px;}
+  .brief .hdr{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold-dim);padding-bottom:10px;margin-bottom:18px;}
+  .brief p{font-size:13.5px;line-height:1.75;margin-bottom:13px;}
+  .brief p .k{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:2px;}
+  .brief b{color:var(--text);font-weight:600;}
+  .brief .foot{margin-top:18px;border-top:1px solid var(--border);padding-top:14px;font-size:11.5px;color:var(--muted);font-style:italic;}
+  .email{margin-top:22px;border:1px solid var(--gold-dim);background:rgba(196,162,92,0.04);padding:18px 20px;}
+  .email .el{font-family:var(--mono);font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+  .email pre{font-family:var(--body);font-size:12.5px;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+  table.map{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.map th{background:#000;color:var(--gold);font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;text-align:left;padding:9px 12px;border:1px solid var(--border);font-weight:500;}
+  table.map td{padding:9px 12px;border:1px solid var(--border);vertical-align:top;}
+  .owner{font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;white-space:nowrap;}
+  .owner.counsel{background:rgba(210,74,74,0.14);color:var(--red);border:1px solid rgba(210,74,74,0.4);}
+  .owner.adapt{background:rgba(196,162,92,0.14);color:var(--gold);border:1px solid var(--gold-dim);}
+  .owner.file{background:rgba(74,210,149,0.12);color:var(--green);border:1px solid rgba(74,210,149,0.35);}
+  .grp-title{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin:22px 0 8px;} .grp-title:first-child{margin-top:0;}
+  ul.decisions{list-style:none;padding:0;}
+  ul.decisions li{font-size:13px;padding:11px 0 11px 26px;position:relative;border-bottom:1px solid var(--border);line-height:1.6;}
+  ul.decisions li:before{content:"?";position:absolute;left:0;top:9px;font-family:var(--mono);color:var(--void);background:var(--gold);width:16px;height:16px;border-radius:50%;text-align:center;font-size:10px;line-height:16px;font-weight:600;}
+  ul.decisions li .q{color:var(--muted);display:block;font-size:11.5px;margin-top:2px;}
+  .note{font-size:11.5px;color:var(--muted);border-left:2px solid var(--gold-dim);padding-left:12px;margin-bottom:18px;}
+  .disc{margin-top:26px;border:1px solid var(--border);padding:14px 16px;font-size:11px;color:var(--muted);}
+  .disc b{color:var(--gold);font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:6px;}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--void);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;padding:10px 20px;opacity:0;transition:opacity .25s;z-index:100;pointer-events:none;}
+  .toast.show{opacity:1;}
+  @media(max-width:880px){ .app{grid-template-columns:1fr;} .inputs{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--border);} .tabs{position:static;} .wl input{width:150px;} }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="wl"><span class="badge">Scoping</span><input type="text" id="firmName" value="[YOUR FIRM]" aria-label="Firm name"></div>
+  <span class="powered">Managing the Unknowns</span>
+</div>
+
+<div class="titlestrip">
+  <div class="eyebrow">Client Intake · Singapore VCC</div>
+  <h1>Tell us about your fund. <em>We will scope the engagement.</em></h1>
+  <p>Answer the questions on the left. This produces a structured scoping brief you can take to counsel, the workstream map for your setup, and the open decisions a lawyer will resolve. It does not replace legal drafting: it gives your legal team a running start, and gives you a clear picture before the meter starts.</p>
+</div>
+
+<div class="app">
+  <div class="inputs" id="inputs">
+    <div class="ingroup">
+      <div class="gl">Your Fund</div>
+      <div class="fld"><label>Working name</label><input type="text" data-k="fundName" value="Alpha Capital VCC"></div>
+      <div class="fld"><label>Target financial year-end</label><input type="text" data-k="fye" value="31 December"></div>
+    </div>
+    <div class="ingroup">
+      <div class="gl">Structure</div>
+      <div class="fld"><div class="radios" data-radio="shape">
+        <label><input type="radio" name="shape" value="Standalone" checked><span>One fund</span></label>
+        <label><input type="radio" name="shape" value="Umbrella"><span>Umbrella (multi sub-fund)</span></label>
+      </div></div>
+      <div class="fld" id="subfundsFld"><label>Sub-fund names (comma separated)</label><input type="text" data-k="subfunds" value="Sub-Fund I, Sub-Fund II"></div>
+      <div class="fld"><label>Liquidity</label><div class="radios" data-radio="liquidity">
+        <label><input type="radio" name="liquidity" value="Open-ended" checked><span>Open-ended</span></label>
+        <label><input type="radio" name="liquidity" value="Closed-ended"><span>Closed-ended</span></label>
+      </div></div>
+    </div>
+    <div class="ingroup">
+      <div class="gl">Investors</div>
+      <div class="fld"><div class="radios" data-radio="investor">
+        <label><input type="radio" name="investor" value="Accredited / Institutional" checked><span>Accredited / institutional</span></label>
+        <label><input type="radio" name="investor" value="Retail"><span>Retail</span></label>
+      </div></div>
+      <div class="fld"><label>Where are your investors?</label><select data-k="geography">
+        <option>Singapore</option><option selected>Regional</option><option>Global</option>
+      </select></div>
+    </div>
+    <div class="ingroup">
+      <div class="gl">Manager</div>
+      <div class="fld"><div class="radios" data-radio="manager">
+        <label><input type="radio" name="manager" value="Own CMS licence" checked><span>Own licence</span></label>
+        <label><input type="radio" name="manager" value="VCFM"><span>VC-only (VCFM)</span></label>
+        <label><input type="radio" name="manager" value="Hosted"><span>Hosted</span></label>
+      </div></div>
+      <div class="fld"><label>Manager entity name</label><input type="text" data-k="managerName" value="Alpha Asset Management Pte Ltd"></div>
+    </div>
+    <div class="ingroup">
+      <div class="gl">Strategy &amp; Origin</div>
+      <div class="fld"><label>Strategy</label><select data-k="strategy">
+        <option>Private Equity</option><option>Venture Capital</option><option>Private Credit</option>
+        <option>Real Estate</option><option>Hedge</option><option>Fund-of-Funds</option><option>Single Asset</option>
+      </select></div>
+      <div class="fld"><label>Setting up fresh or moving an existing fund?</label><div class="radios" data-radio="origin">
+        <label><input type="radio" name="origin" value="Fresh incorporation" checked><span>Fresh</span></label>
+        <label><input type="radio" name="origin" value="Re-domiciliation"><span>Re-domicile</span></label>
+      </div></div>
+    </div>
+    <div class="ingroup">
+      <div class="gl">Economics</div>
+      <div class="fld"><label>Management fee</label><input type="text" data-k="mgmtFee" value="2.0% per annum of NAV"></div>
+      <div class="fld"><label>Performance fee / carry</label><input type="text" data-k="perfFee" value="20% of net profits"></div>
+      <div class="fld"><label>Hurdle</label><input type="text" data-k="hurdle" value="8% per annum"></div>
+      <div class="fld"><label>Liquidity terms</label><input type="text" data-k="lockup" value="Quarterly redemption, 90 days notice, 12-month soft lock"></div>
+    </div>
+    <div class="ingroup">
+      <div class="gl">Tax</div>
+      <div class="fld"><label>Seeking a fund tax incentive?</label><div class="radios" data-radio="tax">
+        <label><input type="radio" name="tax" value="None" checked><span>Not sure</span></label>
+        <label><input type="radio" name="tax" value="13O"><span>13O</span></label>
+        <label><input type="radio" name="tax" value="13U"><span>13U</span></label>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="output">
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-tab="brief">Scoping Brief</div>
+      <div class="tab" data-tab="map">Workstream Map</div>
+      <div class="tab" data-tab="decisions">Open Decisions</div>
+    </div>
+    <div class="panecontent" id="pane"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+const state={
+  fundName:"Alpha Capital VCC", fye:"31 December", shape:"Standalone", subfunds:"Sub-Fund I, Sub-Fund II",
+  liquidity:"Open-ended", investor:"Accredited / Institutional", geography:"Regional",
+  manager:"Own CMS licence", managerName:"Alpha Asset Management Pte Ltd", strategy:"Private Equity",
+  origin:"Fresh incorporation", mgmtFee:"2.0% per annum of NAV", perfFee:"20% of net profits",
+  hurdle:"8% per annum", lockup:"Quarterly redemption, 90 days notice, 12-month soft lock", tax:"None"
+};
+let activeTab="brief", firm="[YOUR FIRM]";
+const f=()=>({
+  isUmbrella:state.shape==="Umbrella", isRetail:state.investor==="Retail", isOpen:state.liquidity==="Open-ended",
+  isHedge:state.strategy==="Hedge", isReDom:state.origin==="Re-domiciliation",
+  ownLicence:state.manager==="Own CMS licence"||state.manager==="VCFM", isHosted:state.manager==="Hosted", hasTax:state.tax!=="None"
+});
+const subN=()=>state.subfunds.split(",").map(s=>s.trim()).filter(Boolean);
+
+function briefText(){
+  const fl=f();
+  const struct = fl.isUmbrella ? `an umbrella VCC comprising ${subN().length} sub-funds (${subN().join(", ")})` : "a standalone VCC";
+  const offer = fl.isRetail
+    ? "offered to retail investors as an authorised scheme, which requires a MAS-registered prospectus and product highlights sheet, the Code on Collective Investment Schemes, and a board of at least three directors including one independent"
+    : "offered to accredited and institutional investors in reliance on the private-placement exemptions, using an information memorandum rather than a registered prospectus";
+  const mgr = fl.isHosted
+    ? `hosted under an existing MAS-licensed fund manager (${state.managerName} need not hold its own licence at launch)`
+    : `managed by ${state.managerName} under its own Capital Markets Services licence${state.manager==="VCFM"?" via the venture-capital fund manager regime":""}`;
+  const origin = fl.isReDom ? "established by re-domiciling an existing comparable foreign corporate fund into Singapore" : "a fresh incorporation with ACRA";
+  const tax = fl.hasTax ? `The client intends to apply for the section ${state.tax} fund tax incentive (subject to the assets-under-management and local-spend conditions).` : "No fund tax incentive has been selected yet; advise whether 13O or 13U is worth pursuing.";
+  return {struct,offer,mgr,origin,tax,fl};
+}
+
+function renderBrief(){
+  const b=briefText();
+  let h=`<div class="docbar"><h2>Scoping Brief</h2><div><button class="btn" id="copyBrief">Copy for counsel</button> <button class="btn" onclick="window.print()">Print</button></div></div>`;
+  h+=`<div class="note">A plain-language summary of the structure described, written as an instruction to counsel. Hand this over to start the engagement.</div>`;
+  h+=`<div class="brief"><div class="hdr">Engagement Scoping Brief · ${state.fundName}</div>`;
+  h+=`<p><span class="k">Proposed vehicle</span><b>${state.fundName}</b>, ${b.struct}, ${state.liquidity.toLowerCase()}, pursuing a ${state.strategy.toLowerCase()} strategy across ${state.geography.toLowerCase()} markets.</p>`;
+  h+=`<p><span class="k">Offer</span>The fund will be ${b.offer}.</p>`;
+  h+=`<p><span class="k">Manager</span>The fund will be ${b.mgr}.</p>`;
+  h+=`<p><span class="k">Origin</span>This is ${b.origin}.</p>`;
+  h+=`<p><span class="k">Economics</span>Management fee ${state.mgmtFee}; performance fee ${state.perfFee}; hurdle ${state.hurdle}. Liquidity: ${state.lockup}.</p>`;
+  h+=`<p><span class="k">Tax</span>${b.tax}</p>`;
+  h+=`<div class="foot">Prepared via ${firm} for scoping only. Drafting, filing and final legal advice are provided by counsel. Figures and elections are indicative and to be confirmed.</div></div>`;
+  // email
+  h+=`<div class="email"><div class="el"><span>Draft handoff email</span><button class="btn" id="copyEmail">Copy email</button></div><pre id="emailText">${emailText()}</pre></div>`;
+  h+=disc();
+  return h;
+}
+function emailText(){
+  const b=briefText();
+  return `Subject: VCC setup, scoping brief for ${state.fundName}
+
+Dear Counsel,
+
+We would like to engage you to establish ${state.fundName}, ${b.struct}, ${state.liquidity.toLowerCase()}, running a ${state.strategy.toLowerCase()} strategy for ${b.fl.isRetail?"retail":"accredited and institutional"} investors across ${state.geography.toLowerCase()} markets.
+
+Manager: the fund will be ${b.mgr}. Origin: ${b.origin}. ${b.tax}
+
+A full scoping brief and our open-questions list are attached. Could you confirm scope, the document set you will draft, and an indicative timeline?
+
+Kind regards,`;
+}
+
+function renderMap(){
+  const fl=f(), subc=subN().length;
+  const groups=[];
+  const v=[
+    ["VCC constitution","Counsel adapts the SAL "+(fl.isOpen?"open-ended":"closed-end")+" model","adapt"],
+    ["Name reservation + incorporation","Filed with ACRA; you provide particulars","file"],
+    ["Director / secretary consents","You provide names and consents","file"]
+  ];
+  if(fl.isUmbrella) v.push(["Sub-fund registrations ("+subc+")","Filed with ACRA per sub-fund","file"]);
+  if(fl.isReDom) v.push(["Transfer-of-registration pack","Counsel prepares; foreign de-registration","counsel"]);
+  groups.push(["Vehicle",v]);
+  const m=[];
+  if(fl.ownLicence){
+    m.push(["CMS licence application (Form 1A)","You file with MAS; counsel supports","file"]);
+    m.push(["Compliance manual, AML/CFT, risk, IT policy","Counsel or compliance consultant drafts","counsel"]);
+  } else {
+    m.push(["Hosting arrangement","Counsel papers the host relationship","counsel"]);
+  }
+  groups.push(["Manager",m]);
+  const o=[];
+  if(fl.isRetail) o.push(["Prospectus + product highlights sheet","Counsel drafts; registered via MAS OPERA","counsel"]);
+  else o.push(["Information memorandum","Counsel drafts from your terms","counsel"]);
+  o.push(["Subscription agreement + investor declaration","Counsel drafts; you provide investor data","counsel"]);
+  o.push(["Side letters","Counsel drafts for anchor investors","counsel"]);
+  groups.push(["Offer & Investors",o]);
+  const g=[
+    ["Fund management agreement","Counsel drafts","counsel"],
+    ["Administration & custody agreements","Provider paper; you select providers","file"],
+    ["AML/CFT outsourcing","Counsel papers to an eligible institution","counsel"]
+  ];
+  if(fl.isHedge) g.push(["Prime brokerage agreement","Provider paper; counsel reviews","file"]);
+  groups.push(["Operations",g]);
+  if(fl.hasTax) groups.push(["Tax",[[state.tax+" incentive application","Counsel / tax adviser prepares for MAS + IRAS","counsel"]]]);
+
+  let h=`<div class="docbar"><h2>Workstream Map</h2><button class="btn" onclick="window.print()">Print</button></div>`;
+  h+=`<div class="note">Who owns each workstream. <span style="color:var(--red)">Counsel drafts</span> the bespoke documents, counsel <span style="color:var(--gold)">adapts</span> the model constitution, and standardized items are <span style="color:var(--green)">filed</span> using inputs you and your providers supply.</div>`;
+  groups.forEach(([title,items])=>{
+    h+=`<div class="grp-title">${title}</div><table class="map"><tr><th>Workstream</th><th>Owner</th></tr>`;
+    items.forEach(([nm,desc,o])=>{ const lab=o==="counsel"?"Counsel drafts":o==="adapt"?"Counsel adapts":"Filed / provided"; h+=`<tr><td><b>${nm}</b><br><span style="color:var(--muted);font-size:11.5px">${desc}</span></td><td><span class="owner ${o}">${lab}</span></td></tr>`; });
+    h+=`</table>`;
+  });
+  return h+disc();
+}
+
+function renderDecisions(){
+  const fl=f(); const d=[];
+  d.push(["Accounting standard","Singapore standards, IFRS or US GAAP for the financial statements"]);
+  d.push(["Fee mechanics","Accrual basis and frequency for the "+state.mgmtFee+" fee, and expense allocation between fund and manager"]);
+  d.push(["Performance fee crystallisation","How and when the "+state.perfFee+" is taken"+(fl.isHedge?", and high-water mark mechanics":"")]);
+  d.push(["Key person","Who the key person is, and what happens on a key-person event"]);
+  d.push(["Manager liability","Standard of care, indemnity and any liability cap in the management agreement"]);
+  if(fl.isUmbrella) d.push(["Sub-fund detail","Share classes per sub-fund and the cross-liability disclosures to counterparties"]);
+  if(fl.isRetail) d.push(["Independent director","Identity of the independent director and scope of Code on CIS compliance"]);
+  if(fl.hasTax) d.push([state.tax+" eligibility","Evidence of the AUM and local business-spend needed to qualify for "+state.tax]);
+  d.push(["Side letter policy","Which investors get side letters, and the most-favoured-nation scope"]);
+  if(fl.isHedge) d.push(["Prime broker","Selection of prime broker and rehypothecation limits"]);
+  d.push(["Governance basics","Singapore-resident director, registered office and AML/CFT outsourcing provider"]);
+
+  let h=`<div class="docbar"><h2>Open Decisions</h2><button class="btn" id="copyDec">Copy list</button></div>`;
+  h+=`<div class="note">The decisions counsel will walk you through. Having a view on these before the first meeting shortens the engagement.</div><ul class="decisions">`;
+  d.forEach(([t,q])=>{ h+=`<li><b>${t}</b><span class="q">${q}</span></li>`; });
+  h+=`</ul>`+disc();
+  return h;
+}
+function decList(){
+  // plain text version for copy
+  const tmp=document.createElement("div"); tmp.innerHTML=renderDecisions();
+  return Array.from(tmp.querySelectorAll("ul.decisions li")).map(li=>"- "+li.querySelector("b").textContent+": "+li.querySelector(".q").textContent).join("\n");
+}
+
+function disc(){return `<div class="disc"><b>Scoping tool · not legal advice</b>This is an intake and scoping aid. It does not create a lawyer-client relationship, does not constitute legal, tax or financial advice, and does not produce execution-ready documents. Legal drafting, filing and advice are provided by qualified Singapore counsel.</div>`;}
+
+function render(){
+  const p=document.getElementById("pane");
+  if(activeTab==="brief"){ p.innerHTML=renderBrief();
+    const a=document.getElementById("copyBrief"); if(a) a.onclick=()=>copyText(briefPlain());
+    const e=document.getElementById("copyEmail"); if(e) e.onclick=()=>copyText(emailText());
+  } else if(activeTab==="map"){ p.innerHTML=renderMap(); }
+  else { p.innerHTML=renderDecisions(); const c=document.getElementById("copyDec"); if(c) c.onclick=()=>copyText(decList()); }
+}
+function briefPlain(){
+  const tmp=document.createElement("div"); tmp.innerHTML=renderBrief();
+  return tmp.querySelector(".brief").innerText;
+}
+
+function copyText(t){
+  const done=()=>{const el=document.getElementById("toast");el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1100);};
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done).catch(()=>fb(t,done)); else fb(t,done);
+}
+function fb(t,done){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
+
+function sync(){ document.getElementById("subfundsFld").classList.toggle("hidden",state.shape!=="Umbrella"); }
+document.querySelectorAll("[data-k]").forEach(el=>el.addEventListener("input",()=>{state[el.dataset.k]=el.value;render();}));
+document.querySelectorAll("[data-radio]").forEach(w=>w.querySelectorAll("input[type=radio]").forEach(r=>r.addEventListener("change",()=>{state[w.dataset.radio]=r.value;sync();render();})));
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");activeTab=t.dataset.tab;render();}));
+document.getElementById("firmName").addEventListener("input",e=>{firm=e.target.value||"[YOUR FIRM]";if(activeTab==="brief")render();});
+sync(); render();
+</script>
+</body>
+</html>

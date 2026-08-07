@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Singapore Fund Formation — Workflow, Documents & Variable Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; box-sizing: border-box; }
+  :root{
+    --gold:#C4A25C; --gold-dim:rgba(196,162,92,0.2);
+    --void:#050608; --panel:#0A0C10; --border:rgba(255,255,255,0.1);
+    --text:#EAEAEA; --muted:#8B8D91; --red:#D24A4A; --green:#4AD295;
+    --head:"Calibri","Segoe UI",system-ui,sans-serif;
+    --body:"Inter",sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  html,body{margin:0;padding:0;background:var(--void);color:var(--text);font-family:var(--body);font-weight:300;line-height:1.6;}
+  body{
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+    background-size:40px 40px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px 120px;}
+  /* MASTHEAD */
+  .masthead{background:#000;border-bottom:1px solid var(--gold-dim);padding:34px 40px;margin:0 -40px 0;position:sticky;top:0;z-index:50;}
+  .masthead .firm{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
+  .masthead .tag{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .masthead .row{display:flex;justify-content:space-between;align-items:baseline;}
+  /* HERO */
+  .hero{padding:70px 0 50px;border-bottom:1px solid var(--border);}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
+  h1{font-family:var(--head);font-weight:400;font-size:46px;line-height:1.08;margin:0 0 18px;letter-spacing:-0.01em;}
+  h1 em{font-style:italic;color:var(--gold);}
+  .lede{font-size:16px;color:var(--text);max-width:760px;font-weight:300;}
+  .lede strong{font-weight:500;}
+  .meta-strip{display:flex;flex-wrap:wrap;gap:28px;margin-top:34px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+  .meta-strip b{color:var(--text);font-weight:500;}
+  /* SECTION */
+  section{padding:54px 0;border-bottom:1px solid var(--border);}
+  h2{font-family:var(--head);font-weight:400;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin:0 0 6px;}
+  .h2sub{font-family:var(--head);font-size:30px;font-weight:400;line-height:1.12;margin:0 0 26px;letter-spacing:-0.01em;}
+  .h2sub em{font-style:italic;color:var(--gold);}
+  h3{font-family:var(--head);font-weight:500;font-size:19px;margin:30px 0 12px;letter-spacing:-0.005em;}
+  p{margin:0 0 14px;}
+  .ref{font-family:var(--mono);font-size:9.5px;vertical-align:super;color:var(--gold);text-decoration:none;padding:0 1px;}
+  .ref:hover{text-decoration:underline;}
+  a{color:var(--gold);}
+  /* VARIABLE LEGEND */
+  .legend{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+  .legend .cell{background:var(--panel);padding:18px 20px;}
+  .legend .k{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+  .legend .v{font-size:13.5px;color:var(--text);}
+  .legend .v span{color:var(--muted);}
+  /* STAGE */
+  .stage{border:1px solid var(--border);background:var(--panel);margin:0 0 22px;position:relative;}
+  .stage-head{display:flex;align-items:stretch;border-bottom:1px solid var(--border);}
+  .stage-num{font-family:var(--mono);font-size:30px;font-weight:300;color:var(--gold);background:#000;padding:20px 24px;display:flex;align-items:center;border-right:1px solid var(--border);min-width:96px;justify-content:center;}
+  .stage-title{padding:16px 22px;display:flex;flex-direction:column;justify-content:center;}
+  .stage-title .lab{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .stage-title .nm{font-family:var(--head);font-size:21px;font-weight:500;line-height:1.1;}
+  .stage-body{padding:22px 24px;}
+  .stage-body p{font-size:14px;}
+  .block{margin-top:18px;}
+  .block-lab{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold-dim);padding-bottom:6px;margin-bottom:12px;}
+  ul.docs{list-style:none;margin:0;padding:0;}
+  ul.docs li{font-size:13.5px;padding:5px 0 5px 20px;position:relative;color:var(--text);border-bottom:1px dotted rgba(255,255,255,0.06);}
+  ul.docs li:before{content:"▪";color:var(--gold);position:absolute;left:0;font-size:10px;top:7px;}
+  ul.docs li .t{color:var(--muted);font-family:var(--mono);font-size:10px;letter-spacing:0.05em;text-transform:uppercase;margin-left:8px;}
+  .var-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .var{border-left:2px solid var(--gold-dim);padding:4px 0 4px 14px;font-size:13px;}
+  .var b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:3px;}
+  .var span{color:var(--muted);}
+  .branch{background:#000;border:1px solid var(--border);padding:14px 16px;margin-top:10px;font-size:12.5px;}
+  .branch .bl{font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);}
+  .branch .bl.red{color:var(--red);}
+  .branch .bl.gold{color:var(--gold);}
+  /* TABLE */
+  .tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  .tbl th{background:#000;color:var(--gold);font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;text-align:left;padding:10px 12px;border:1px solid var(--border);font-weight:500;}
+  .tbl td{padding:10px 12px;border:1px solid var(--border);vertical-align:top;color:var(--text);}
+  .tbl td .t{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+  .tbl tr:nth-child(even) td{background:rgba(255,255,255,0.015);}
+  /* TERMINAL TEMPLATE */
+  .term{background:#000;border:1px solid var(--border);padding:0;margin:18px 0;}
+  .term-head{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(196,162,92,0.04);}
+  .term-body{padding:16px 18px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--text);font-weight:300;}
+  .term-body .cl{color:var(--gold);}
+  .term-body .nx{color:var(--muted);}
+  .callout{border:1px solid var(--gold-dim);background:rgba(196,162,92,0.04);padding:16px 18px;margin:18px 0;font-size:13px;}
+  .callout .cl{font-family:var(--mono);font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+  .contrarian{border-left:3px solid var(--red);}
+  .contrarian .cl{color:var(--red);}
+  /* REFERENCES */
+  ol.refs{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7;padding-left:26px;}
+  ol.refs li{margin-bottom:9px;word-break:break-word;}
+  ol.refs li a{color:var(--gold);text-decoration:none;}
+  ol.refs li a:hover{text-decoration:underline;}
+  /* FOOTER */
+  .doc-foot{background:#000;border-top:1px solid var(--gold-dim);padding:30px 40px;margin:0 -40px;text-align:center;}
+  .doc-foot .f1{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);}
+  .doc-foot .f2{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:8px;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.6;}
+  @media(max-width:720px){
+    .wrap{padding:0 20px 80px;} .masthead{padding:24px 20px;margin:0 -20px;}
+    h1{font-size:32px;} .legend{grid-template-columns:1fr;} .var-grid{grid-template-columns:1fr;}
+    .stage-head{flex-direction:column;} .stage-num{min-width:0;border-right:none;border-bottom:1px solid var(--border);padding:12px;}
+    .doc-foot{margin:0 -20px;padding:26px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="row">
+    <span class="firm">Seeking Alpha Advisors</span>
+    <span class="tag">Research, Advisory &amp; Execution</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Investigative Playbook · Singapore Jurisdiction</div>
+    <h1>Singapore Fund Formation:<br><em>Workflow, Documents</em> &amp; Variable Map</h1>
+    <p class="lede">A staged decision map for constituting a Singapore investment fund. Each <strong>node</strong> sets out the documents produced, the <strong>variable inputs</strong> that drive branching, the legal <strong>scenarios</strong> that result, and the source references. The default spine is the <strong>Variable Capital Company (VCC)</strong>, with the limited partnership, unit trust and private company treated as alternative vehicles at Node 0. Document skeletons brief counsel: they are structural outlines, not execution-ready legal drafts.</p>
+    <div class="meta-strip">
+      <span>Vehicle spine · <b>VCC Act 2018</b></span>
+      <span>Regulators · <b>ACRA + MAS</b></span>
+      <span>Manager regime · <b>CMS / LFMC (RFMC repealed Aug 2024)</b></span>
+      <span>Status · <b>Reference draft</b></span>
+    </div>
+  </div>
+
+  <!-- VARIABLE INPUTS -->
+  <section>
+    <h2>Inputs</h2>
+    <div class="h2sub">The nine <em>variable inputs</em> that drive every branch</div>
+    <p style="font-size:14px;max-width:780px;">These are the answers to collect before drafting anything. Every downstream document, fee, governance threshold and tax outcome is a function of how these resolve. Treat them as the intake schema.</p>
+    <div class="legend">
+      <div class="cell"><div class="k">V1 · Vehicle</div><div class="v">VCC · Limited Partnership · Unit Trust · Private Company · <span>(offshore feeder into SG master)</span></div></div>
+      <div class="cell"><div class="k">V2 · VCC shape</div><div class="v">Standalone · Umbrella with N sub-funds <span>(statutory asset/liability segregation)</span></div></div>
+      <div class="cell"><div class="k">V3 · Liquidity life</div><div class="v">Open-ended · Closed-ended <span>(selects the model constitution)</span></div></div>
+      <div class="cell"><div class="k">V4 · Investor class</div><div class="v">Retail (authorised scheme) · Accredited / Institutional only (restricted)</div></div>
+      <div class="cell"><div class="k">V5 · Manager route</div><div class="v">Own CMS licence (A/I or Retail LFMC) · VCFM (VC-only) · Hosted / externalised manager</div></div>
+      <div class="cell"><div class="k">V6 · Origin</div><div class="v">Fresh incorporation · Re-domiciliation <span>(transfer of registration)</span></div></div>
+      <div class="cell"><div class="k">V7 · Tax posture</div><div class="v">None · 13O (onshore) · 13U (enhanced tier) + FSI-FM for the manager</div></div>
+      <div class="cell"><div class="k">V8 · Asset class &amp; strategy</div><div class="v">PE · VC · Private credit · Real estate · Hedge · Fund-of-funds · Single asset</div></div>
+      <div class="cell"><div class="k">V9 · Investor geography</div><div class="v">SG · Regional · Global <span>(drives offer exemptions, treaty access, AML scope)</span></div></div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section>
+    <h2>Workflow</h2>
+    <div class="h2sub">The formation spine as <em>nodes</em>, with documents, variables and scenarios</div>
+
+    <!-- NODE 0 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">00</div>
+        <div class="stage-title"><div class="lab">Threshold · Vehicle Selection</div><div class="nm">Choose the legal wrapper</div></div>
+      </div>
+      <div class="stage-body">
+        <p>If the arrangement pools capital, is managed as a whole, and the participants lack day-to-day control, it is a collective investment scheme (CIS) and falls under the Securities and Futures Act.<a class="ref" href="#r4">4</a> The VCC was introduced as a body corporate purpose-built for CIS, sitting alongside the limited partnership, limited liability partnership and company as the onshore options.<a class="ref" href="#r5">5</a> More than 1,400 VCCs were established by Q1 2025, reflecting the shift away from the older LP and Cayman segregated-portfolio structures.<a class="ref" href="#r17">17</a></p>
+        <div class="block">
+          <div class="block-lab">Comparison · the four onshore wrappers</div>
+          <table class="tbl">
+            <tr><th>Vehicle</th><th>Governing law</th><th>Legal personality</th><th>Governing document</th><th>Best fit</th></tr>
+            <tr><td><b>VCC</b></td><td>VCC Act 2018<a class="ref" href="#r5">5</a></td><td>Separate; board of directors; shareholders hold participating shares, manager holds management shares<a class="ref" href="#r13">13</a></td><td>Constitution</td><td>Open or closed-end; umbrella multi-strategy; redemptions without solvency statement<a class="ref" href="#r16">16</a></td></tr>
+            <tr><td><b>Limited Partnership</b></td><td>Limited Partnerships Act<a class="ref" href="#r14">14</a></td><td>Not a separate legal entity; GP + LPs<a class="ref" href="#r14">14</a></td><td>Limited Partnership Agreement (LPA)</td><td>PE / VC closed-end; tax transparent; LP-familiar global investors<a class="ref" href="#r14">14</a></td></tr>
+            <tr><td><b>Unit Trust</b></td><td>Trust deed; Trust Companies Act for trustee<a class="ref" href="#r13">13</a></td><td>Not separate; trustee holds assets on trust<a class="ref" href="#r13">13</a></td><td>Trust Deed</td><td>Retail-style pooling; listing path to REIT / business trust<a class="ref" href="#r32">32</a></td></tr>
+            <tr><td><b>Private Company</b></td><td>Companies Act 1967<a class="ref" href="#r14">14</a></td><td>Separate; standard corporate</td><td>Constitution (M&amp;A)</td><td>SPV / investment holding; constrained by capital-maintenance rules<a class="ref" href="#r35">35</a></td></tr>
+          </table>
+        </div>
+        <div class="block">
+          <div class="block-lab">Variable inputs at this node</div>
+          <div class="var-grid">
+            <div class="var"><b>V1 Vehicle</b><span>Corporate flexibility (issue/redeem at NAV, dividends from capital) vs LP tax transparency vs trust simplicity</span></div>
+            <div class="var"><b>V3 Liquidity</b><span>Open-ended needs variable capital; closed-end tolerates LP or company</span></div>
+            <div class="var"><b>V8 Strategy</b><span>Real-estate / REIT managers and single-family offices are excluded from managing a VCC under the current exempt-manager carve-out</span></div>
+            <div class="var"><b>V9 Geography</b><span>Treaty access (90+ DTAs) favours an onshore corporate VCC over an offshore feeder</span></div>
+          </div>
+        </div>
+        <div class="branch"><span class="bl gold">SCENARIO FORK</span><br>VCC → continue Node 1 spine. LP → swap the constitution for an LPA and register with ACRA (no MAS-licensed-manager precondition for the vehicle itself, though managing it is still a regulated activity). Unit trust → trustee with a TCA licence replaces the board. Company → Companies Act capital-maintenance constraints apply.<a class="ref" href="#r14">14</a></div>
+      </div>
+    </div>
+
+    <!-- NODE 1 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">01</div>
+        <div class="stage-title"><div class="lab">Precondition · Fund Manager</div><div class="nm">Secure the regulated manager</div></div>
+      </div>
+      <div class="stage-body">
+        <p>A VCC cannot self-manage: it must appoint a Permissible Fund Manager regulated by MAS, which shapes the entire timeline.<a class="ref" href="#r11">11</a> The lighter-touch Registered Fund Management Company (RFMC) regime was repealed on 1 August 2024; existing RFMCs had to transition to an Accredited/Institutional Licensed Fund Management Company via Form 1AR in the 1 April to 30 June 2024 window.<a class="ref" href="#r6">6</a> New entrants now apply directly for a Capital Markets Services (CMS) licence.<a class="ref" href="#r8">8</a></p>
+        <div class="block">
+          <div class="block-lab">Documents produced</div>
+          <ul class="docs">
+            <li>CMS licence application <span class="t">Form 1A (new) / Form 1AR (RFMC transition)</span></li>
+            <li>Business plan, financial projections, AUM build <span class="t">applicant-prepared</span></li>
+            <li>Compliance manual <span class="t">A/I LFMC standard</span></li>
+            <li>AML / CFT policies and procedures <span class="t">SFA + MAS Notices</span></li>
+            <li>Risk management framework</li>
+            <li>IT / cybersecurity policy <span class="t">MAS technology risk</span></li>
+            <li>Base capital injection evidence and fit-and-proper declarations <span class="t">directors, reps, shareholders</span></li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-lab">Variable inputs at this node</div>
+          <div class="var-grid">
+            <div class="var"><b>V4 Investor class</b><span>A/I LFMC serves accredited and institutional only; Retail LFMC reaches all investors at materially higher capital and conduct cost</span></div>
+            <div class="var"><b>V8 Strategy</b><span>VC-only portfolios can use the simplified Venture Capital Fund Manager (VCFM) regime, exempt from some capital and conduct rules</span></div>
+            <div class="var"><b>V5 Route</b><span>Own licence (6 to 9 months for A/I; 9 to 15 months retail) vs hosting under an existing licensed manager</span></div>
+          </div>
+        </div>
+        <div class="branch"><span class="bl">SCENARIO A · OWN LICENCE</span> Application fee S$1,000 per regulated activity; annual S$4,000 to S$8,000 (A/I) or S$8,000+ (retail); indicative advisory S$80,000 to S$180,000.<a class="ref" href="#r8">8</a> Transitioned A/I LFMCs carry a S$250m AUM cap as a licence condition.<a class="ref" href="#r6">6</a></div>
+        <div class="branch"><span class="bl gold">SCENARIO B · HOSTED MANAGER</span> Launch the VCC under an existing MAS-licensed manager, removing the cost and lead time of obtaining a CMS licence. Common for emerging and external managers.<a class="ref" href="#r11">11</a></div>
+        <div class="branch"><span class="bl red">SCENARIO C · FAMILY OFFICE</span> A single-family office is generally not a Permissible Fund Manager, so it must engage an external licensed manager or obtain its own licence.<a class="ref" href="#r9">9</a></div>
+      </div>
+    </div>
+
+    <!-- NODE 2 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">02</div>
+        <div class="stage-title"><div class="lab">Constitution · Incorporation</div><div class="nm">Incorporate with ACRA</div></div>
+      </div>
+      <div class="stage-body">
+        <p>The constitution must be prepared in advance and filed with the incorporation application through ACRA's VCC portal, a register separate from ordinary companies.<a class="ref" href="#r3">3</a> The Singapore Academy of Law publishes two model constitutions, one for open-ended and one for closed-end funds, which can be adopted or replaced with a bespoke draft.<a class="ref" href="#r10">10</a> Name reservation is processed in about one working day and holds for 120 days.<a class="ref" href="#r3">3</a> The VCC incorporation fee is indicatively S$8,000 with processing around 14 business days, subject to completeness.<a class="ref" href="#r12">12</a></p>
+        <div class="block">
+          <div class="block-lab">Documents produced</div>
+          <ul class="docs">
+            <li>Name reservation application <span class="t">ACRA VCC portal</span></li>
+            <li>VCC Constitution <span class="t">SAL model (open / closed) or bespoke</span></li>
+            <li>Incorporation application <span class="t">ACRA · fee ~S$8,000</span></li>
+            <li>Particulars of directors, secretary and Permissible Fund Manager</li>
+            <li>Consents to act and fit-and-proper declarations</li>
+            <li>Registered office (physical SG address; no P.O. box)<a class="ref" href="#r9">9</a></li>
+            <li>Sub-fund registration form <span class="t">umbrella only · S$400 per sub-fund</span></li>
+            <li>Transfer-of-registration application + certified foreign constitution &amp; incorporation certificate <span class="t">re-domiciliation only</span></li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-lab">Variable inputs at this node</div>
+          <div class="var-grid">
+            <div class="var"><b>V2 Shape</b><span>Standalone vs umbrella; each sub-fund registered separately and segregated by statute (s 29 VCC Act)</span></div>
+            <div class="var"><b>V3 Liquidity</b><span>Open vs closed-end selects which SAL model constitution applies</span></div>
+            <div class="var"><b>V4 Investor class</b><span>An authorised (retail) scheme requires at least three directors including one independent; otherwise one director suffices</span></div>
+            <div class="var"><b>V6 Origin</b><span>Fresh incorporation vs transfer of registration of a comparable foreign corporate fund</span></div>
+          </div>
+        </div>
+        <div class="branch"><span class="bl">SCENARIO · UMBRELLA</span> One legal entity, multiple sub-funds, each with segregated assets and liabilities; a sub-fund has no separate legal personality but is treated as separate for insolvency and enforcement.<a class="ref" href="#r13">13</a> Tax incentives are assessed at the umbrella level.</div>
+        <div class="branch"><span class="bl gold">SCENARIO · RE-DOMICILIATION</span> Only a foreign fund with a corporate structure equivalent to a VCC may transfer its registration to Singapore; notify the foreign authority of de-registration.<a class="ref" href="#r10">10</a></div>
+      </div>
+    </div>
+
+    <!-- NODE 3 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">03</div>
+        <div class="stage-title"><div class="lab">Governance · Mandatory Appointments</div><div class="nm">Stand up the officers and providers</div></div>
+      </div>
+      <div class="stage-body">
+        <p>The VCC must bolt on statutory infrastructure that an ordinary company is not forced to carry: a MAS-regulated manager, qualifying directors, a company secretary, an auditor, and the administrator and custodian that run the fund day to day.<a class="ref" href="#r11">11</a> At least one director must be ordinarily resident in Singapore, and at least one director must be a director or qualified representative of the fund manager.<a class="ref" href="#r9">9</a> Appointment deadlines bite: company secretary within six months, auditor within three months, and unlike a small private company a VCC has no audit exemption.<a class="ref" href="#r9">9</a></p>
+        <div class="block">
+          <div class="block-lab">Documents produced</div>
+          <ul class="docs">
+            <li>Board resolutions appointing directors, secretary, auditor</li>
+            <li>Fund Management Agreement <span class="t">VCC ↔ manager</span></li>
+            <li>Fund Administration Agreement <span class="t">NAV, registry, investor services</span></li>
+            <li>Custodian Agreement <span class="t">approved custodian / approved trustee</span></li>
+            <li>Auditor engagement letter <span class="t">SG-approved public accounting firm</span></li>
+            <li>Banking and account-opening pack <span class="t">fresh KYC per sub-fund</span></li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-lab">Variable inputs at this node</div>
+          <div class="var-grid">
+            <div class="var"><b>V4 Investor class</b><span>Authorised scheme requires the trustee/custodian and CIS-Code-compliant governance; three directors including one independent</span></div>
+            <div class="var"><b>V8 Strategy</b><span>Hedge strategies add a prime brokerage agreement and rehypothecation limits</span></div>
+          </div>
+        </div>
+        <div class="callout"><div class="cl">Slow leg</div>Bank and custody account opening is frequently the longest part of the timeline, each sub-fund being a fresh KYC and risk assessment, so it should start in parallel from day one rather than at the end.<a class="ref" href="#r11">11</a></div>
+      </div>
+    </div>
+
+    <!-- NODE 4 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">04</div>
+        <div class="stage-title"><div class="lab">Offer · Investor Documents</div><div class="nm">Build the offer pack</div></div>
+      </div>
+      <div class="stage-body">
+        <p>The offer documents fork sharply on investor class. A CIS offered in Singapore must be authorised (if SG-constituted) or recognised (if foreign), and the offer must be made with a MAS-registered prospectus and product highlights sheet, unless an exemption applies.<a class="ref" href="#r4">4</a> Authorisation runs through Form 1 on the OPERA system, conditioned on a CMS-licensed manager and an appointed approved custodian for a VCC or sub-fund.<a class="ref" href="#r4">4</a> A restricted offer to accredited or institutional investors, or at a minimum of S$200,000 per investor, can instead rely on an information memorandum under the private-placement exemptions.<a class="ref" href="#r39">39</a></p>
+        <div class="block">
+          <div class="block-lab">Documents produced</div>
+          <ul class="docs">
+            <li>Prospectus + Product Highlights Sheet <span class="t">retail / authorised · OPERA Form 1</span></li>
+            <li>Private Placement Memorandum / Information Memorandum <span class="t">restricted / A-I offer</span></li>
+            <li>Subscription Agreement <span class="t">per investor</span></li>
+            <li>Investor questionnaire / Accredited Investor declaration <span class="t">KYC + suitability</span></li>
+            <li>Side letters <span class="t">anchor LPs only · MFN, fee, key-person</span></li>
+            <li>Summary of terms / term sheet, marketing deck <span class="t">counsel-reviewed</span></li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-lab">Variable inputs at this node</div>
+          <div class="var-grid">
+            <div class="var"><b>V4 Investor class</b><span>Retail triggers prospectus + PHS + Code on CIS; A/I triggers IM + exemption reliance</span></div>
+            <div class="var"><b>V9 Geography</b><span>Cross-border investors pull in foreign offer rules and broaden the AML/KYC perimeter</span></div>
+          </div>
+        </div>
+        <div class="callout contrarian"><div class="cl">Contrarian flag</div>The PPM/IM is the impressive document but not the legally indispensable one. In the general private-fund stack the constitution (here, the VCC constitution) is what binds the deal; where no PPM is used, the disclosures and risk factors must sit inside the subscription agreement instead.<a class="ref" href="#r18">18</a> Do not let a polished IM mask a thin constitution.</div>
+      </div>
+    </div>
+
+    <!-- NODE 5 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">05</div>
+        <div class="stage-title"><div class="lab">Integrity · AML/CFT &amp; Ownership</div><div class="nm">Wire the compliance perimeter</div></div>
+      </div>
+      <div class="stage-body">
+        <p>Under MAS Notice VCC-N01 the VCC is subject to AML/CFT obligations and in practice must outsource them to an eligible financial institution, usually the fund manager or a qualified corporate service provider, which performs customer due diligence, sanctions screening, transaction monitoring and suspicious-transaction reporting.<a class="ref" href="#r9">9</a> The VCC remains ultimately responsible even where it delegates.<a class="ref" href="#r10">10</a> It must maintain a register of beneficial owners, which is disclosed to authorities on request though not made public.<a class="ref" href="#r2">2</a></p>
+        <div class="block">
+          <div class="block-lab">Documents produced</div>
+          <ul class="docs">
+            <li>AML/CFT outsourcing agreement <span class="t">to eligible FI · MAS Notice VCC-N01</span></li>
+            <li>Register of members <span class="t">private</span></li>
+            <li>Register of beneficial owners / controllers</li>
+            <li>Register of charges <span class="t">if borrowing · file with ACRA within 30 days</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 6 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">06</div>
+        <div class="stage-title"><div class="lab">Optional Parallel · Tax Incentive</div><div class="nm">Apply for 13O / 13U</div></div>
+      </div>
+      <div class="stage-body">
+        <p>Two headline incentives, administered jointly by IRAS and MAS, run in parallel with incorporation rather than after it.<a class="ref" href="#r9">9</a> Section 13O (onshore, formerly 13R) requires at least S$20m AUM at application and S$200,000 of local business spend per year. Section 13U (enhanced tier, formerly 13X) requires at least S$50m AUM and S$500,000 of local spend, with no investor-residency restriction.<a class="ref" href="#r9">9</a> The manager can separately seek the Financial Sector Incentive (FSI-FM) concessionary rate.<a class="ref" href="#r17">17</a></p>
+        <div class="block">
+          <div class="block-lab">Variable inputs at this node</div>
+          <div class="var-grid">
+            <div class="var"><b>V7 Tax posture</b><span>AUM scale and local-spend capacity decide 13O vs 13U vs none</span></div>
+            <div class="var"><b>V9 Geography</b><span>13U removes the investor-residency restriction that 13O effectively imposes</span></div>
+          </div>
+        </div>
+        <div class="callout"><div class="cl">2025 refresh · verify before relying</div>The 2025 framework moved local-spend to a tiered basis keyed to AUM, allowed an election so incentives do not lapse merely because AUM falls below threshold during the divestment phase, and relaxed the strict MAS-approved-investment-strategy requirement provided activity stays within the offering document's scope.<a class="ref" href="#r19a">19</a> Confirm current thresholds against the live MAS circular before filing.</div>
+      </div>
+    </div>
+
+    <!-- NODE 7 -->
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">07</div>
+        <div class="stage-title"><div class="lab">Launch &amp; Ongoing</div><div class="nm">First close to perpetual compliance</div></div>
+      </div>
+      <div class="stage-body">
+        <p>Launch is the start of an ongoing cycle, not the finish line: first subscriptions, first NAV, then perpetual filing.<a class="ref" href="#r11">11</a> Each sub-fund of an umbrella VCC must be registered within seven days of establishment, and the umbrella must disclose the segregation of sub-fund assets to contractual counterparties.<a class="ref" href="#r10">10</a> Financial statements must be audited for each sub-fund, the annual return filed with ACRA within seven months of financial year-end, and an AGM is not mandatory if statements are sent to members within five months of year-end and no member requests one.<a class="ref" href="#r12">12</a></p>
+        <div class="block">
+          <div class="block-lab">Recurring documents</div>
+          <ul class="docs">
+            <li>Audited financial statements <span class="t">per sub-fund</span></li>
+            <li>ACRA annual return <span class="t">within 7 months of FYE</span></li>
+            <li>MAS periodic returns <span class="t">quarterly / annual for LFMC</span></li>
+            <li>Capital account statements and investor reporting</li>
+            <li>Sub-fund registration filings <span class="t">within 7 days of establishment</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MASTER REGISTER -->
+  <section>
+    <h2>Register</h2>
+    <div class="h2sub">Master <em>document register</em> with template source</div>
+    <p style="font-size:14px;max-width:780px;">Where a document is bespoke, the canonical starting point is a structural skeleton (see next section) taken to counsel. Where it is a standard form, the canonical template is the regulator's own form: do not reconstruct these, retrieve them.</p>
+    <table class="tbl">
+      <tr><th>Document</th><th>Node</th><th>Nature</th><th>Canonical template source</th></tr>
+      <tr><td>VCC Constitution</td><td>02</td><td>Bespoke / model</td><td>Singapore Academy of Law model constitutions (open / closed-end)<a class="ref" href="#r10">10</a></td></tr>
+      <tr><td>Name + incorporation + sub-fund forms</td><td>02</td><td>Regulator form</td><td>ACRA VCC portal &amp; "How to Guide: Setting Up a VCC"<a class="ref" href="#r1">1</a></td></tr>
+      <tr><td>CMS licence application</td><td>01</td><td>Regulator form</td><td>MAS Form 1A (new) / Form 1AR (transition)<a class="ref" href="#r8">8</a></td></tr>
+      <tr><td>Compliance manual, AML/CFT, risk, IT policy</td><td>01,05</td><td>Bespoke</td><td>Built to MAS Guidelines on Licensing &amp; Conduct + Notice VCC-N01<a class="ref" href="#r9">9</a></td></tr>
+      <tr><td>Prospectus + Product Highlights Sheet</td><td>04</td><td>Regulator-registered</td><td>MAS OPERA Form 1; Code on CIS<a class="ref" href="#r4">4</a></td></tr>
+      <tr><td>PPM / Information Memorandum</td><td>04</td><td>Bespoke</td><td>Skeleton below → counsel</td></tr>
+      <tr><td>Subscription Agreement + AI declaration</td><td>04</td><td>Bespoke / market-standard</td><td>Skeleton below → counsel<a class="ref" href="#r18">18</a></td></tr>
+      <tr><td>Side letter</td><td>04</td><td>Bespoke</td><td>Skeleton below → counsel</td></tr>
+      <tr><td>Fund Management Agreement</td><td>03</td><td>Bespoke</td><td>Skeleton below → counsel</td></tr>
+      <tr><td>Fund Administration &amp; Custodian agreements</td><td>03</td><td>Provider paper</td><td>Administrator / approved custodian standard form<a class="ref" href="#r4">4</a></td></tr>
+      <tr><td>AML/CFT outsourcing agreement</td><td>05</td><td>Bespoke</td><td>Eligible FI paper aligned to Notice VCC-N01<a class="ref" href="#r9">9</a></td></tr>
+      <tr><td>13O / 13U application</td><td>06</td><td>Regulator form</td><td>MAS incentive application (with IRAS)<a class="ref" href="#r9">9</a></td></tr>
+    </table>
+  </section>
+
+  <!-- TEMPLATES -->
+  <section>
+    <h2>Skeletons</h2>
+    <div class="h2sub">Document <em>skeletons</em> for the bespoke instruments</div>
+    <p style="font-size:14px;max-width:780px;">These are clause/section maps to brief counsel and to structure a data room, not execution-ready drafts. A VCC constitution in particular should start from the SAL model rather than a blank page.</p>
+
+    <div class="term">
+      <div class="term-head">// VCC CONSTITUTION — section map</div>
+      <div class="term-body">
+        <span class="cl">1.</span> Name, registered office, status as VCC under VCC Act 2018<br>
+        <span class="cl">2.</span> Sole purpose: one or more collective investment schemes<br>
+        <span class="cl">3.</span> Standalone vs umbrella; <span class="nx">sub-fund schedule, segregation of assets &amp; liabilities (s 29)</span><br>
+        <span class="cl">4.</span> Share capital: no par value; shares issued/redeemed at NAV; classes<br>
+        <span class="cl">5.</span> Issue, redemption, repurchase mechanics; pricing and dealing days<br>
+        <span class="cl">6.</span> Dividends out of capital and/or profit<br>
+        <span class="cl">7.</span> Board: number, residency, manager-linked director; (retail: 3 incl 1 independent)<br>
+        <span class="cl">8.</span> Delegation to Permissible Fund Manager; custodian appointment<br>
+        <span class="cl">9.</span> Members' rights, meetings, registers (member register private)<br>
+        <span class="cl">10.</span> NAV, valuation policy, accounting standard (SG / IFRS / US GAAP)<br>
+        <span class="cl">11.</span> Amendment (ordinary resolution; limited director-only amendment cases)<br>
+        <span class="cl">12.</span> Winding up / sub-fund termination (Companies Act regime, modified)
+      </div>
+    </div>
+
+    <div class="term">
+      <div class="term-head">// INFORMATION MEMORANDUM (PPM) — section map</div>
+      <div class="term-body">
+        <span class="cl">1.</span> Important notices, selling restrictions, exemption relied upon (s 304/305)<br>
+        <span class="cl">2.</span> Summary of terms (mirror the constitution; do not diverge)<br>
+        <span class="cl">3.</span> Investment objective, strategy, asset class, restrictions<br>
+        <span class="cl">4.</span> Manager &amp; key persons; track record; conflicts of interest<br>
+        <span class="cl">5.</span> Fees: management fee, carried interest / performance fee, expenses<br>
+        <span class="cl">6.</span> Subscription, redemption, lock-ups, gates, side-pocket policy<br>
+        <span class="cl">7.</span> Risk factors <span class="nx">(market, liquidity, key-person, operational, tax, regulatory)</span><br>
+        <span class="cl">8.</span> Valuation &amp; NAV; service providers (admin, custodian, auditor)<br>
+        <span class="cl">9.</span> Tax (SG incentive posture; investor-level treatment)<br>
+        <span class="cl">10.</span> AML/CFT; data; reporting cadence
+      </div>
+    </div>
+
+    <div class="term">
+      <div class="term-head">// SUBSCRIPTION AGREEMENT — section map</div>
+      <div class="term-body">
+        <span class="cl">1.</span> Subscription amount, share class, dealing date<br>
+        <span class="cl">2.</span> Investor identity &amp; legal status; <span class="nx">accredited / institutional eligibility</span><br>
+        <span class="cl">3.</span> Representations &amp; warranties (sophistication, source of funds, sanctions)<br>
+        <span class="cl">4.</span> AML/KYC questionnaire and supporting documents<br>
+        <span class="cl">5.</span> Acknowledgement of IM risk factors (or embedded disclosures if no IM)<br>
+        <span class="cl">6.</span> Power of attorney to the manager for prescribed acts<br>
+        <span class="cl">7.</span> Transfer restrictions; data consent; governing law (Singapore)
+      </div>
+    </div>
+
+    <div class="term">
+      <div class="term-head">// FUND MANAGEMENT AGREEMENT — section map</div>
+      <div class="term-body">
+        <span class="cl">1.</span> Appointment &amp; scope of discretionary authority; investment mandate<br>
+        <span class="cl">2.</span> Compliance with VCC Act, SFA, CMS-licence conditions<br>
+        <span class="cl">3.</span> Fees &amp; expense allocation; high-water mark / hurdle<br>
+        <span class="cl">4.</span> Delegation, sub-advisory, and oversight of delegates<br>
+        <span class="cl">5.</span> Standard of care, indemnity, liability cap, key-person clause<br>
+        <span class="cl">6.</span> Term, termination, and orderly hand-over of records
+      </div>
+    </div>
+
+    <div class="term">
+      <div class="term-head">// SIDE LETTER — section map</div>
+      <div class="term-body">
+        <span class="cl">1.</span> Identified anchor investor; incorporation into constitution/IM by reference<br>
+        <span class="cl">2.</span> Economic terms: fee discount, carry adjustment, capacity right<br>
+        <span class="cl">3.</span> Most-Favoured-Nation clause (scope and election mechanics)<br>
+        <span class="cl">4.</span> Key-person redemption / co-investment rights<br>
+        <span class="cl">5.</span> Reporting, transparency, regulatory-status carve-outs<br>
+        <span class="nx">Keep to true anchor LPs; side letters compound governance complexity.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENARIO MATRIX -->
+  <section>
+    <h2>Branching</h2>
+    <div class="h2sub">The legal <em>scenarios</em> matrix</div>
+    <p style="font-size:14px;max-width:780px;">Each row is a fork. The combination of selections defines a unique document set and compliance burden. Read it as the branch logic sitting underneath the workflow spine.</p>
+    <table class="tbl">
+      <tr><th>Fork</th><th>Option A</th><th>Option B (and beyond)</th><th>What it changes</th></tr>
+      <tr><td>Vehicle (V1)</td><td>VCC</td><td>LP / Unit Trust / Pte Ltd / offshore feeder</td><td>Governing document, legal personality, tax treatment, regulator path<a class="ref" href="#r13">13</a></td></tr>
+      <tr><td>Shape (V2)</td><td>Standalone</td><td>Umbrella + N sub-funds</td><td>Sub-fund registration (S$400 each), statutory segregation, umbrella-level tax<a class="ref" href="#r13">13</a></td></tr>
+      <tr><td>Liquidity (V3)</td><td>Open-ended</td><td>Closed-ended</td><td>Which SAL model constitution; redemption mechanics<a class="ref" href="#r10">10</a></td></tr>
+      <tr><td>Investor class (V4)</td><td>Accredited / Institutional</td><td>Retail (authorised scheme)</td><td>IM + exemption vs prospectus + PHS + CIS Code; 1 vs 3 directors<a class="ref" href="#r4">4</a></td></tr>
+      <tr><td>Manager (V5)</td><td>Own CMS licence (A/I or Retail)</td><td>VCFM (VC-only) / hosted manager</td><td>Capital, conduct, timeline, AUM cap; Form 1A vs hosting<a class="ref" href="#r8">8</a></td></tr>
+      <tr><td>Origin (V6)</td><td>Fresh incorporation</td><td>Re-domiciliation</td><td>Transfer-of-registration pack; foreign de-registration notice<a class="ref" href="#r10">10</a></td></tr>
+      <tr><td>Tax (V7)</td><td>No incentive</td><td>13O / 13U + FSI-FM</td><td>AUM &amp; local-spend thresholds; MAS+IRAS application track<a class="ref" href="#r9">9</a></td></tr>
+    </table>
+  </section>
+
+  <!-- BUILD ORDER -->
+  <section>
+    <h2>Sequence</h2>
+    <div class="h2sub">Why the <em>order</em> matters</div>
+    <p style="font-size:14px;max-width:800px;">The single most common sequencing error is treating the manager and the bank/custody accounts as late-stage admin. They are the two slow legs. The realistic end-to-end timeline is governed by standing up or hosting the manager, opening bank and custody accounts (a fresh KYC per sub-fund), and, if wanted, securing a tax incentive: the ACRA incorporation step itself is fast once documents are ready.<a class="ref" href="#r11">11</a> Start Node 1 and the banking thread on day one, in parallel, not at the end.</p>
+    <p style="font-size:14px;max-width:800px;">A second discipline carried from general fund practice: align the IM, the constitution and actual operating practice. Inconsistency between the offer document and the governing document is a primary source of investor disputes, so the IM should be drafted to mirror the constitution, not to lead it.<a class="ref" href="#r18">18</a></p>
+  </section>
+
+  <!-- REFERENCES -->
+  <section style="border-bottom:none;">
+    <h2>Sources</h2>
+    <div class="h2sub">References</div>
+    <ol class="refs">
+      <li id="r1">ACRA — Variable Capital Companies (overview &amp; How-to guides). <a href="https://www.acra.gov.sg/business-entities/variable-capital-companies">acra.gov.sg/business-entities/variable-capital-companies</a></li>
+      <li id="r2">ACRA — VCC FAQs (directors, beneficial owners, winding up). <a href="https://www.acra.gov.sg/business-entities/variable-capital-companies/faqs">acra.gov.sg/business-entities/variable-capital-companies/faqs</a></li>
+      <li id="r3">Bird &amp; Bird — Singapore VCCs Legal &amp; Regulatory Essentials (2026). <a href="https://www.twobirds.com/en/insights/2026/singapore/singapore-vccs-legal-,-a-,-regulatory-essentials">twobirds.com</a></li>
+      <li id="r4">SingaporeFunds.sg — Fund Structures / CIS &amp; OPERA Form 1. <a href="https://singaporefunds.sg/fund-structures/">singaporefunds.sg/fund-structures</a></li>
+      <li id="r5">A&amp;O Shearman — The Variable Capital Company. <a href="https://www.aoshearman.com/en/insights/the-variable-capital-company-a-new-corporate-structure-for-funds-in-singapore">aoshearman.com</a></li>
+      <li id="r6">Allen &amp; Gledhill — MAS response on repeal of the RFMC regime (Form 1AR; Aug 2024). <a href="https://www.allenandgledhill.com/sg/publication/articles/27786/mas-issues-response-to-feedback-from-consultation-on-repeal-of-regulatory-regime-for-registered-fund-management-companies">allenandgledhill.com</a></li>
+      <li id="r7">Morgan Lewis — MAS to repeal RFMC regime. <a href="https://www.morganlewis.com/pubs/2023/11/monetary-authority-of-singapore-set-to-repeal-registered-fund-management-companies-regime">morganlewis.com</a></li>
+      <li id="r8">Raffles Corporate Services — MAS Licensed Fund Management Company (LFMC) 2026 guide (fees, timelines, Form 1A). <a href="https://rafflescorporateservices.com/mas-licensed-fund-management-company-lfmc-complete-2026-guide/">rafflescorporateservices.com</a></li>
+      <li id="r9">Raffles Corporate Services — VCC Singapore 2026 guide (directors, secretary/auditor deadlines, 13O/13U). <a href="https://rafflescorporateservices.com/variable-capital-company-vcc-singapore-guide-2026/">rafflescorporateservices.com</a></li>
+      <li id="r10">Waystone — Requirements for the VCC (SAL model constitutions, AML/CFT, sub-funds). <a href="https://compliance.waystone.com/singapores-new-fund-structure-requirements-for-variable-capital-company-vcc/">compliance.waystone.com</a></li>
+      <li id="r11">VCC Singapore — Setting Up a VCC (sequence, slow legs, reviewed Jun 2026). <a href="https://vccsingapore.com/setting-up-vcc-singapore/">vccsingapore.com/setting-up-vcc-singapore</a></li>
+      <li id="r12">Corporate Services / VCC Singapore — VCC setup (incorporation fee, sub-fund S$400, annual return). <a href="https://www.corporateservices.com/singapore/variable-capital-company-singapore/">corporateservices.com</a></li>
+      <li id="r13">Chambers &amp; Partners — Singapore Alternative Funds practice guide (vehicle comparison, segregation). <a href="https://practiceguides.chambers.com/practice-guides/comparison/1019/17351/27235-27238-27249-27261">practiceguides.chambers.com</a></li>
+      <li id="r14">Vistra — Singapore fund domiciles (LP, unit trust, company). <a href="https://www.vistra.com/governance-risk-compliance/establishment/set-up/fund-domiciles/singapore">vistra.com</a></li>
+      <li id="r15">SG Wealth Law — MAS CMS / VCFM licensing. <a href="https://www.sgwealthlaw.com/fund-manager-licence-singapore/">sgwealthlaw.com</a></li>
+      <li id="r16">PwC Singapore — Understanding the Singapore VCC. <a href="https://www.pwc.com/sg/en/asset-management/singapore-variable-capital-company.html">pwc.com/sg</a></li>
+      <li id="r17">Trustmoore — Variable Capital Companies (uptake, exempt-manager limitation, FSI-FM). <a href="https://www.trustmoore.com/variable-capital-companies/">trustmoore.com</a></li>
+      <li id="r18">Fundamentals.law — Legal documents needed to raise a fund (PPM/constitution alignment). <a href="https://www.fundamentals.law/p/legal-documents-need-raise-investment-fund">fundamentals.law</a></li>
+      <li id="r19a">VCC Singapore — The VCC Structure (2025 incentive refresh; verify against live MAS circular). <a href="https://vccsingapore.com/the-vcc-structure/">vccsingapore.com/the-vcc-structure</a></li>
+    </ol>
+  </section>
+
+</div>
+
+<div class="doc-foot">
+  <div class="f1">Seeking Alpha Advisors · Research, Advisory &amp; Execution</div>
+  <div class="f2">Reference playbook. General information on Singapore fund-formation process and documents, current to mid-2026 and subject to change. Not legal, tax or financial advice. Fund documentation is jurisdiction- and counsel-specific; verify all forms, fees and thresholds against the live ACRA and MAS sources before relying on them.</div>
+</div>
+
+</body>
+</html>
